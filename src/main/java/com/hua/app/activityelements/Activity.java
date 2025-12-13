@@ -6,50 +6,46 @@ import com.hua.app.caloriexpenditurecalculation.CalorieCalculationManager;
 
 public class Activity {
     private String activityType;
-    ArrayList<Lap> lapList;
+    ArrayList<ActivityComponent> subcomponentList;
     
     public Activity(String activityType) {
         this.activityType = activityType;
-        lapList = new ArrayList<Lap>();
+        subcomponentList = new ArrayList<ActivityComponent>();
     }
     
     public String getActivityType() {
         return activityType;
     }
     
-    public double getDurationInMinutes() {
+    public double getDuration() {
         int secondsSum = 0;
-        for (Lap lap : lapList) {
-            secondsSum += lap.getDuration();
+        for (ActivityComponent subcomponent : subcomponentList) {
+            secondsSum += subcomponent.getDuration();
         }
-        return secondsSum / 60.0;
+        return secondsSum;
     }
     
-    /* TODO */
-    /* public String getDurationInHumanReadableForm(); */
-    
     public double getDistance() {
-        return lapList.get(lapList.size() - 1).getDistance();
+        return subcomponentList.get(subcomponentList.size() - 1).getDistance();
     }
     
     public double getAverageSpeed() {
-        double duration = getDurationInMinutes();
-        if (duration == 0) {
+        double durationInMinutes = getDuration() / 60;
+        if (durationInMinutes == 0) {
             return 0.0;
         }
-        return (getDistance() / 1000) / (getDurationInMinutes() / 60);
+        return (getDistance() / 1000) / (durationInMinutes / 60);
     }
     
     public double getAverageHeartRate() {
         double averageHeartRateSum = 0.0;
-        for (Lap lap : lapList) {
-            averageHeartRateSum += lap.getAverageHeartRate();
+        for (ActivityComponent subcomponent : subcomponentList) {
+            averageHeartRateSum += subcomponent.getAverageHeartRate();
         }
-        return averageHeartRateSum / lapList.size();
+        return averageHeartRateSum / subcomponentList.size();
     }
     
     public double getCaloricExpenditure(CalorieCalculationManager manager) {
-        // Use the caller object to get the methods the formulas need
         return manager.calculate(this);
     }
 }

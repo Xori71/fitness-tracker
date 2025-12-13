@@ -1,28 +1,38 @@
 package com.hua.app.activityelements;
 
-public class Trackpoint {
+public class Trackpoint extends ActivityComponent {
     private String timestamp;
     @SuppressWarnings("unused")
     private double latitude, longtitude, altitude, distance;
     private int heartRate;
     
-    public Trackpoint(String timestamp, double latitude, double longtitude, double distance, int heartRate) {
-        this.timestamp = timestamp;
+    public Trackpoint(double latitude, double longtitude, double distance, int heartRate, String timestamp) {
         this.latitude = latitude;
         this.longtitude = longtitude;
         this.distance = distance;
         this.heartRate = heartRate;
+        this.timestamp = timestamp;
     }
     
-    public int getHeartRate() {
-        return heartRate;
-    }
-    
+    @Override
     public double getDistance() {
         return distance;
     }
     
-    public String getDuration() {
-        return timestamp;
+    @Override
+    public double getAverageHeartRate() {
+        return heartRate;
+    }
+    
+    @Override
+    public double getMaxHeartRate() {
+		return heartRate;
+	}
+    
+    @Override
+    public int getDuration() {
+        String filter = "[:]";
+        String[] splitTime = timestamp.split(filter);
+        return Integer.parseInt(splitTime[0]) * 3600 + Integer.parseInt(splitTime[1]) * 60 + Integer.parseInt(splitTime[2]);
     }
 }
