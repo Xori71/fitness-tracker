@@ -1,48 +1,72 @@
 package com.hua.app.activityelements;
 
 import java.util.ArrayList;
-
 import com.hua.app.caloriexpenditurecalculation.CalorieCalculationManager;
 
 public class Activity {
+    ArrayList<Lap> lapList;
     private String activityType;
-    ArrayList<ActivityComponent> subcomponentList;
     
     public Activity(String activityType) {
         this.activityType = activityType;
-        subcomponentList = new ArrayList<ActivityComponent>();
+        lapList = new ArrayList<Lap>();
     }
     
-    public String getActivityType() {
+    public void addLap(Lap lap) {
+        lapList.addLast(lap);
+    }
+    
+    public String getActivityType(){
         return activityType;
     }
     
-    public double getDuration() {
-        int secondsSum = 0;
-        for (ActivityComponent subcomponent : subcomponentList) {
-            secondsSum += subcomponent.getDuration();
+    public double getAverageHeartRate() {
+        int heartRateSum = 0;
+        int count = 0;
+        for (Lap lap : lapList) {
+            heartRateSum += lap.getHeartRateSum();
+            count += lap.getHeartRateCount();
         }
-        return secondsSum;
+        
+        if (count == 0) {
+            return 0;
+        }
+        return heartRateSum / count;
+    }
+    
+    public int getMaxHeartRate() {
+        int maxHeartRate = 0;
+        for (Lap lap : lapList) {
+            if (maxHeartRate < lap.getMaxHeartRate()) {
+                maxHeartRate = lap.getMaxHeartRate();
+            }
+        }
+        
+        return maxHeartRate;
+    }
+    
+    public double getDuration() {
+        int sum = 0;
+        for (Lap lap : lapList) {
+            sum += lap.getDuration();
+        }
+        return sum;
+    }
+    
+    public String getFormattedDuration() {
+        return lapList.get(lapList.size() - 1).getFormattedDuration();
     }
     
     public double getDistance() {
-        return subcomponentList.get(subcomponentList.size() - 1).getDistance();
+        return lapList.get(lapList.size() - 1).getDistance();
     }
     
     public double getAverageSpeed() {
-        double durationInMinutes = getDuration() / 60;
-        if (durationInMinutes == 0) {
-            return 0.0;
+        double seconds = getDuration();
+        if (seconds == 0) {
+            return 0;
         }
-        return (getDistance() / 1000) / (durationInMinutes / 60);
-    }
-    
-    public double getAverageHeartRate() {
-        double averageHeartRateSum = 0.0;
-        for (ActivityComponent subcomponent : subcomponentList) {
-            averageHeartRateSum += subcomponent.getAverageHeartRate();
-        }
-        return averageHeartRateSum / subcomponentList.size();
+        return (getDistance() / 1000) / (seconds / 3600);
     }
     
     public double getCaloricExpenditure(CalorieCalculationManager manager) {
