@@ -10,6 +10,9 @@ public class CalorieCalculationManager {
     }
     
     public double calculate(Activity activity) {
+        if (formula == null) {
+            return 0;
+        }
         return formula.calculate(activity);
     }
 }
