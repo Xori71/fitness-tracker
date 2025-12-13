@@ -1,14 +1,10 @@
 package com.hua.app.activityelements;
 
-import java.util.ArrayList;
-
-public class Lap {
-    // Duration is in seconds
+public class Lap extends ActivityComponent {
     private int duration;
-    private ArrayList<Track> trackList;
     
-    public Lap() {
-        trackList = new ArrayList<Track>();
+    public Lap(int duration) {
+        this.duration = duration;
     }
     
     public int getDuration() {
@@ -16,14 +12,6 @@ public class Lap {
     }
     
     public double getDistance() {
-        return trackList.get(trackList.size() - 1).getDistance();
-    }
-    
-    public double getAverageHeartRate() {
-        double averageHeartRateSum = 0.0;
-        for (Track track : trackList) {
-            averageHeartRateSum += track.getAverageHeartRate();
-        }
-        return averageHeartRateSum / trackList.size();
+        return subcomponentList.get(subcomponentList.size() - 1).getDistance();
     }
 }
