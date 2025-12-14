@@ -1,6 +1,7 @@
 package com.hua.app;
 import com.hua.app.activityelements.Activity;
-import com.hua.app.xmlparser.XmlParser;
+import com.hua.app.utilities.xmlparser.XmlParser;
+
 import java.util.ArrayList;
 
 /**
