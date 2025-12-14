@@ -31,7 +31,7 @@ public class XmlParser{
             NodeList activityList = document.getElementsByTagName("Activity");
 
             //activity
-            
+            int count = 1;
             for(int i = 0; i < activityList.getLength(); i++){
                 //Node activity = activityList.item(i);
                 Element activityElement = (Element) activityList.item(i);
@@ -41,20 +41,20 @@ public class XmlParser{
                 NodeList laps = activityElement.getElementsByTagName("Lap");
                 //laps
                 for (int a = 0; a < laps.getLength(); a++) {
-                    Element lapElement = (Element) laps.item(i);
+                    Element lapElement = (Element) laps.item(a);
                     Lap lap = new Lap();
 
                     NodeList trackList = lapElement.getElementsByTagName("Track");
                     //tracks
                     for (int b = 0; b < trackList.getLength(); b++) {
-                        Element trackElement = (Element) trackList.item(i);
+                        Element trackElement = (Element) trackList.item(b);
                         Track track = new Track();
 
                         NodeList trackPoints = trackElement.getElementsByTagName("Trackpoint");
                         //trackpoints
 
                         for (int j = 0; j < trackPoints.getLength(); j++) {
-                            Element e = (Element) trackPoints.item(i);
+                            Element e = (Element) trackPoints.item(j);
                             
                             String timestamp = getNodeValue(e.getElementsByTagName("Time"));
                             String[] splStrings = timestamp.split("[T.]");
@@ -74,8 +74,10 @@ public class XmlParser{
                             //NodeList hrElement = (Element) e.getElementsByTagName("HeartRateBpm");
                             int heartRate = Integer.parseInt(getNodeValue(hrbElement.getElementsByTagName("Value")));
                             
-                            System.out.println("yes");
+                            System.out.println(count);
+                            count++;
                             track.addTrackpoint(new Trackpoint(latitude, longtitude, altitude, distance, heartRate, timestamp));
+                            
                         }
                         lap.addTrack(track);
                     }

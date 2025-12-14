@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class App {
     public static void main(String[] args) {
         ArrayList<Activity> activityArray = new ArrayList<Activity>();
-        activityArray = XmlParser.TcxParse("cycling.tcx", activityArray);
+        activityArray = XmlParser.TcxParse("walking_activity_1.tcx", activityArray);
         for (Activity activity : activityArray){
             System.out.println("Activity: " + activity.getActivityType());
             System.out.println("Total Time: " + activity.getFormattedDuration());
