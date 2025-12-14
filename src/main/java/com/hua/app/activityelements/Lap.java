@@ -6,8 +6,7 @@ public class Lap {
     ArrayList<Track> trackList;
     private int duration; /* In seconds */
     
-    public Lap(int duration) {
-        this.duration = duration;
+    public Lap() {
         trackList = new ArrayList<Track>();
     }
     
