@@ -22,6 +22,11 @@ public class Trackpoint {
 	    return timestamp;
 	}
 	
+	public int getTimestampInSeconds() {
+        String[] timeSplit = timestamp.split(":");
+        return Integer.parseInt(timeSplit[0]) * 3600 + Integer.parseInt(timeSplit[1]) * 60 + Integer.parseInt(timeSplit[2]);
+	}
+	
 	public double getDistance() {
         return distance;
     }

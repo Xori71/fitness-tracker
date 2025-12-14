@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 public class Lap {
     ArrayList<Track> trackList;
-    private int duration; /* In seconds */
     
     public Lap(int duration) {
-        this.duration = duration;
         trackList = new ArrayList<Track>();
     }
     
@@ -43,14 +41,19 @@ public class Lap {
     }
     
     public int getDuration() {
-        return duration;
+         return trackList.get(trackList.size() - 1).getDuration();
     }
-    
     public String getFormattedDuration() {
         return trackList.get(trackList.size() - 1).getFormattedDuration();
     }
     
     public double getDistance() {
         return trackList.get(trackList.size() - 1).getDistance();
+    }
+    
+    public void getMhrZoneDuration(int[] mhrThreshold, int[] duration) {
+        for (Track track : trackList) {
+            track.getMhrZoneDuration(mhrThreshold, duration);
+        }
     }
 }
