@@ -12,4 +12,8 @@ public class Athlete {
     public ArrayList<Activity> getActivities() {
         return activityList;
     }
+    
+    public void addActivity(Activity activity) {
+        activityList.addLast(activity);
+    }
 }

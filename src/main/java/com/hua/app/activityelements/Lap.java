@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Lap {
     ArrayList<Track> trackList;
     
-    public Lap(int duration) {
+    public Lap() {
         trackList = new ArrayList<Track>();
     }
     
