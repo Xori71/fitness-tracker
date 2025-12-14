@@ -6,9 +6,10 @@ public class Trackpoint {
     private double latitude, longtitude, altitude, distance;
     private int heartRate;
     
-    public Trackpoint(double latitude, double longtitude, double distance, int heartRate, String timestamp) {
+    public Trackpoint(double latitude, double longtitude, double altitude, double distance, int heartRate, String timestamp) {
         this.latitude = latitude;
         this.longtitude = longtitude;
+        this.altitude = altitude;
         this.distance = distance;
         this.heartRate = heartRate;
         this.timestamp = timestamp;
