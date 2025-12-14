@@ -1,7 +1,8 @@
 package com.hua.app.activityelements;
 
 import java.util.ArrayList;
-import com.hua.app.caloriexpenditurecalculation.CalorieCalculationManager;
+
+import com.hua.app.utilities.calories.CalorieCalculationManager;
 
 public class Activity {
     ArrayList<Lap> lapList;
@@ -46,11 +47,7 @@ public class Activity {
     }
     
     public double getDuration() {
-        int sum = 0;
-        for (Lap lap : lapList) {
-            sum += lap.getDuration();
-        }
-        return sum;
+        return lapList.get(lapList.size() - 1).getDuration();
     }
     
     public String getFormattedDuration() {
@@ -71,5 +68,14 @@ public class Activity {
     
     public double getCaloricExpenditure(CalorieCalculationManager manager) {
         return manager.calculate(this);
+    }
+    
+    public int[] getMhrZoneDuration(int[] mhrThreshold) {
+        int[] duration = new int[5];
+        for (Lap lap : lapList) {
+            lap.getMhrZoneDuration(mhrThreshold, duration);
+        }
+        
+        return duration;
     }
 }
