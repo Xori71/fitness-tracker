@@ -1,4 +1,4 @@
-package com.hua.app.xmlparser;
+package com.hua.app.utilities.xmlparser;
 
 import com.hua.app.activityelements.Activity;
 import com.hua.app.activityelements.Lap;
