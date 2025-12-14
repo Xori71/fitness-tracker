@@ -1,4 +1,4 @@
-package com.hua.app.caloriexpenditurecalculation;
+package com.hua.app.utilities.calories;
 
 public class CalculatorFactory {
     public static CalorieCalculationFormula createCalculator(double weight, int age, String sex) {
