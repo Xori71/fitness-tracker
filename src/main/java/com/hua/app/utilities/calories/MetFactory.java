@@ -1,4 +1,4 @@
-package com.hua.app.caloriexpenditurecalculation;
+package com.hua.app.utilities.calories;
 
 // The role of this class is to give me a correct m value depending on the activity type and speed
 public class MetFactory {

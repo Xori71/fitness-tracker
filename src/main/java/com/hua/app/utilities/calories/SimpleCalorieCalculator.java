@@ -1,4 +1,4 @@
-package com.hua.app.caloriexpenditurecalculation;
+package com.hua.app.utilities.calories;
 
 import com.hua.app.activityelements.Activity;
 
