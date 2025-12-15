@@ -19,10 +19,6 @@ public class Trackpoint {
         return heartRate;
     }
 	
-	public String getTimestamp() {
-	    return timestamp;
-	}
-	
 	public int getTimestampInSeconds() {
         String[] timeSplit = timestamp.split(":");
         return Integer.parseInt(timeSplit[0]) * 3600 + Integer.parseInt(timeSplit[1]) * 60 + Integer.parseInt(timeSplit[2]);

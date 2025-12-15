@@ -46,12 +46,20 @@ public class Activity {
         return maxHeartRate;
     }
     
-    public double getDuration() {
-        return lapList.get(lapList.size() - 1).getDuration();
+    public int getDuration() {
+        int firstPoint = lapList.get(0).getTrackpoint(0);
+        int lastPoint = lapList.get(lapList.size() - 1).getTrackpoint(-1);
+        
+        return lastPoint - firstPoint;
     }
     
     public String getFormattedDuration() {
-        return lapList.get(lapList.size() - 1).getFormattedDuration();
+        int duration = getDuration();
+        int hours = duration / 3600;
+        int minutes = (duration % 3600) / 60;
+        int seconds = (duration % 3600) % 60;
+        
+        return Integer.toString(hours) + ":" + Integer.toString(minutes) + ":" + Integer.toString(seconds);
     }
     
     public double getDistance() {

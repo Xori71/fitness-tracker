@@ -40,11 +40,12 @@ public class Lap {
         return maxHeartRate;
     }
     
-    public int getDuration() {
-         return trackList.get(trackList.size() - 1).getDuration();
-    }
-    public String getFormattedDuration() {
-        return trackList.get(trackList.size() - 1).getFormattedDuration();
+    public int getTrackpoint(int index) {
+        int tmpIndex = index;
+        if (index == -1) {
+            tmpIndex = trackList.size() - 1;
+        }
+        return trackList.get(tmpIndex).getTrackpoint(index);
     }
     
     public double getDistance() {
