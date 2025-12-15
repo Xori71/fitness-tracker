@@ -22,7 +22,14 @@ public class Track {
     }
     
     public int getHeartRateCount() {
-        return trackpointList.size();
+        int count = 0;
+        for (Trackpoint trackpoint : trackpointList) {
+            if (trackpoint.getHeartRate() != -1) {
+                count++;
+            }
+        }
+        
+        return count;
     }
     
     public int getMaxHeartRate() {
