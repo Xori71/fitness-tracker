@@ -15,6 +15,5 @@ public class App {
             System.out.printf("Avg Speed: %.2f km/h\n", activity.getAverageSpeed());
             System.out.println("Avg Heart Rate: " + activity.getAverageHeartRate());
         }
-        System.out.println("8=>");
     }
 }
