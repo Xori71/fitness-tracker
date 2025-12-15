@@ -60,19 +60,25 @@ public class XmlParser{
                             String[] splStrings = timestamp.split("[T.]");
                             timestamp = splStrings[1];
 
-                            double distance = Double.parseDouble(getNodeValue(e.getElementsByTagName("DistanceMeters")));
-                            double altitude = Double.parseDouble(getNodeValue(e.getElementsByTagName("AltitudeMeters")));
+                            double distance = getDoublesafe(e, "DistanceMeters", 0);
+                            //double distance = Double.parseDouble(getNodeValue(e.getElementsByTagName("DistanceMeters")));
+                            double altitude = getDoublesafe(e, "AltitudeMeters", 0);
+                            //double altitude = Double.parseDouble(getNodeValue(e.getElementsByTagName("AltitudeMeters")));
 
                             NodeList posList = e.getElementsByTagName("Position");
                             Element posElement = (Element) posList.item(0);
-                            double latitude =  Double.parseDouble(getNodeValue(posElement.getElementsByTagName("LatitudeDegrees")));
-                            double longtitude = Double.parseDouble(getNodeValue(posElement.getElementsByTagName("LongitudeDegrees")));
+                            //double kati = getDoublesafe(posElement, "latitude", 0);
+                            double latitude =  getDoublesafe(posElement, "LatitudeDegrees", 0);
+                            //double latitude =  Double.parseDouble(getNodeValue(posElement.getElementsByTagName("LatitudeDegrees")));
+                            double longtitude = getDoublesafe(posElement, "LongitudeDegrees", 0);
+                            //double longtitude = Double.parseDouble(getNodeValue(posElement.getElementsByTagName("LongitudeDegrees")));
 
 
                             NodeList hrbList = e.getElementsByTagName("HeartRateBpm");
                             Element hrbElement = (Element) hrbList.item(0);
                             //NodeList hrElement = (Element) e.getElementsByTagName("HeartRateBpm");
-                            int heartRate = Integer.parseInt(getNodeValue(hrbElement.getElementsByTagName("Value")));
+                            int heartRate = getIntsafe(hrbElement, "Value", 0);
+                            //int heartRate = Integer.parseInt(getNodeValue(hrbElement.getElementsByTagName("Value")));
                             
                             System.out.println(count);
                             count++;
@@ -99,4 +105,24 @@ public class XmlParser{
 
     }
     
+    private static double getDoublesafe(Element e,String tagName, double defaultValue ) {
+        double value;
+        try {
+            value = Double.parseDouble(getNodeValue(e.getElementsByTagName(tagName)));
+            return value;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return defaultValue;
+        }
+    }
+    private static int getIntsafe(Element e,String tagName, int defaultValue ) {
+        int value;
+        try {
+            value = Integer.parseInt(getNodeValue(e.getElementsByTagName(tagName)));
+            return value;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return defaultValue;
+        }
+    }
 }
