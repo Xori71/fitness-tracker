@@ -31,7 +31,7 @@ public class XmlParser{
             NodeList activityList = document.getElementsByTagName("Activity");
 
             //activity
-            int count = 1;
+            //int count = 1;
             for(int i = 0; i < activityList.getLength(); i++){
                 //Node activity = activityList.item(i);
                 Element activityElement = (Element) activityList.item(i);
@@ -80,8 +80,8 @@ public class XmlParser{
                             int heartRate = getIntsafe(hrbElement, "Value", 0);
                             //int heartRate = Integer.parseInt(getNodeValue(hrbElement.getElementsByTagName("Value")));
                             
-                            System.out.println(count);
-                            count++;
+                            //System.out.println(count);
+                            //count++;
                             track.addTrackpoint(new Trackpoint(latitude, longtitude, altitude, distance, heartRate, timestamp));
                             
                         }
