@@ -25,7 +25,7 @@ public class MetFactory {
             } else {
                 return 11.9;
             }
-        } else if (activityType.equals("Cycling")) {
+        } else if (activityType.equals("Cycling") || activityType.equals("Biking")) {
             if (averageSpeed < 16.0) {
                 return 4.0;
             } else if (averageSpeed < 19.0) {

@@ -11,6 +11,10 @@ public class SimpleCalorieCalculator implements CalorieCalculationFormula {
     
     @Override
     public double calculate(Activity activity) {
-        return MetFactory.createMetValue(activity.getAverageSpeed(), activity.getActivityType()) * weight * activity.getDuration() / 60.0;
+        try {
+            return 0.0175 * MetFactory.createMetValue(activity.getAverageSpeed(), activity.getActivityType()) * weight * (activity.getDuration() / 60.0);
+        } catch (IllegalArgumentException e) {
+            return -1;
+        }
     }
 }
