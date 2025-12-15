@@ -36,12 +36,12 @@ public class Track {
         return maxHeartRate;
     }
     
-    public int getDuration() {
-         return trackpointList.get(trackpointList.size() - 1).getTimestampInSeconds();
-    }
-    
-    public String getFormattedDuration() {
-        return trackpointList.get(trackpointList.size() - 1).getTimestamp();
+    public int getTrackpoint(int index) {
+        int tmpIndex = index;
+        if (index == -1) {
+            tmpIndex = trackpointList.size() - 1;
+        }
+        return trackpointList.get(tmpIndex).getTimestampInSeconds();
     }
     
     // Use the last trackpoint to find the total distance
