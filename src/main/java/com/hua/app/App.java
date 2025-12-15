@@ -1,12 +1,9 @@
 package com.hua.app;
+
 import com.hua.app.activityelements.Activity;
 import com.hua.app.utilities.xmlparser.XmlParser;
-
 import java.util.ArrayList;
 
-/**
- * Hello world!
- */
 public class App {
     public static void main(String[] args) {
         ArrayList<Activity> activityArray = new ArrayList<Activity>();
@@ -20,6 +17,4 @@ public class App {
         }
         System.out.println("8=>");
     }
-
-
 }
