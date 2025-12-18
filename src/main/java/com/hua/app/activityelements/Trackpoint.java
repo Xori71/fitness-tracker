@@ -1,18 +1,22 @@
 package com.hua.app.activityelements;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 public class Trackpoint {
-    private String timestamp;
+    private LocalDateTime timestamp;
     @SuppressWarnings("unused")
     private double latitude, longtitude, altitude, distance;
     private int heartRate;
     
-    public Trackpoint(double latitude, double longtitude, double altitude, double distance, int heartRate, String timestamp) {
+    public Trackpoint(double latitude, double longtitude, double altitude, double distance, int heartRate, Instant timestamp) {
         this.latitude = latitude;
         this.longtitude = longtitude;
         this.altitude = altitude;
         this.distance = distance;
         this.heartRate = heartRate;
-        this.timestamp = timestamp;
+        this.timestamp = LocalDateTime.ofInstant(timestamp, ZoneId.systemDefault());
     }
 
     public int getHeartRate() {
@@ -20,8 +24,7 @@ public class Trackpoint {
     }
 	
 	public int getTimestampInSeconds() {
-        String[] timeSplit = timestamp.split(":");
-        return Integer.parseInt(timeSplit[0]) * 3600 + Integer.parseInt(timeSplit[1]) * 60 + Integer.parseInt(timeSplit[2]);
+        return timestamp.toLocalTime().toSecondOfDay();
 	}
 	
 	public double getDistance() {
