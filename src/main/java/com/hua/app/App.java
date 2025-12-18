@@ -22,35 +22,39 @@ public class App {
         }
         
         for (Activity activity : activityArray) {
-            System.out.println("* Activity: " + activity.getActivityType());
-            System.out.println("* Total Time: " + activity.getFormattedDuration());
-            System.out.printf("* Total Distance: %.2fm\n", activity.getDistance());
-            System.out.printf("* Avg Speed: %.2f km/h\n", activity.getAverageSpeed());
-            System.out.println("* Avg Heart Rate: " + activity.getAverageHeartRate());
-            System.out.println("* Max Heart Rate: " + activity.getMaxHeartRate());
-            
-            CalorieCalculationManager manager = new CalorieCalculationManager();
-            manager.setStrategy(CalculatorFactory.createCalculator(weight, age, sex));
-            if (manager.formulaExists()) {
-                double value = manager.calculate(activity);
-                if (value != -1) {
-                    System.out.printf("* Calories Expended: %.2f kcal\n", value);
+            /* activityArray may be partially or entirely filled with null values */
+            if (activity != null) {
+                System.out.println("* Activity: " + activity.getActivityType());
+                System.out.println("* Total Time: " + activity.getFormattedDuration());
+                System.out.printf("* Total Distance: %.2fm\n", activity.getDistance());
+                System.out.printf("* Avg Speed: %.2f km/h\n", activity.getAverageSpeed());
+                System.out.println("* Avg Heart Rate: " + activity.getAverageHeartRate());
+                System.out.println("* Max Heart Rate: " + activity.getMaxHeartRate());
+                
+                CalorieCalculationManager manager = new CalorieCalculationManager();
+                manager.setStrategy(CalculatorFactory.createCalculator(weight, age, sex));
+                if (manager.formulaExists()) {
+                    double value = manager.calculate(activity);
+                    if (value != -1) {
+                        System.out.printf("* Calories Expended: %.2f kcal\n", value);
+                    }
                 }
-            }
-            
-            if (age != 0) {
-                int[] mhrThresholds = ZoneThresholdCreator.createThresholds(age);
-                int[] duration = activity.getMhrZoneDuration(mhrThresholds);
-                System.out.println("* HR Zones:");
-                for (int i = 0; i < duration.length; i++) {
-                    System.out.println("    Time spent in Heart Zone " + (i + 1) + ": " + duration[i] + "s");
+                
+                if (age != 0) {
+                    int[] mhrThresholds = ZoneThresholdCreator.createThresholds(age);
+                    int[] duration = activity.getMhrZoneDuration(mhrThresholds);
+                    System.out.println("* HR Zones:");
+                    for (int i = 0; i < duration.length; i++) {
+                        System.out.println("    Time spent in Heart Zone " + (i + 1) + ": " + duration[i] + "s");
+                    }
                 }
+                
+                System.out.println("----------------------------------------");
             }
-            
-            System.out.println("----------------------------------------");
         }
     }
     
+    /* Parser for main's args array */
     private static void parseArgs(String[] args) {
         for (int i = 0; i < args.length; i++) {
             String currentArg = args[i];
