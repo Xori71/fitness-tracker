@@ -1,7 +1,6 @@
 package com.hua.app;
 
 import com.hua.app.activityelements.Activity;
-import com.hua.app.utilities.argsparser.MainArgsParser;
 import com.hua.app.utilities.calories.CalculatorFactory;
 import com.hua.app.utilities.calories.CalorieCalculationManager;
 import com.hua.app.utilities.heartratezones.ZoneThresholdCreator;
@@ -9,13 +8,13 @@ import com.hua.app.utilities.xmlparser.XmlParser;
 import java.util.ArrayList;
 
 public class App {
+    static double weight = 0;
+    static int age = 0;
+    static String sex = null;
+    static ArrayList<String> totalFiles = new ArrayList<String>();
+    
     public static void main(String[] args) {
-        double weight = 0;
-        int age = 0;
-        String sex = null;
-        ArrayList<String> totalFiles = new ArrayList<String>();
-        
-        MainArgsParser.parseArgs(args, weight, age, sex, totalFiles);
+        parseArgs(args);
         
         ArrayList<Activity> activityArray = new ArrayList<Activity>();
         for (String file : totalFiles) {
@@ -48,7 +47,86 @@ public class App {
                 }
             }
             
-            System.out.println("--------------------");
+            System.out.println("----------------------------------------");
+        }
+    }
+    
+    private static void parseArgs(String[] args) {
+        for (int i = 0; i < args.length; i++) {
+            String currentArg = args[i];
+            String argValue = null;
+            
+            if (currentArg.equals("-w")) {
+                if (i + 1 >= args.length) {
+                    break;
+                }
+                
+                argValue = args[i + 1];
+                try {
+                    double value = Double.parseDouble(argValue);
+                    weight = value;
+                    if (weight < 0) {
+                        throw new IllegalArgumentException();
+                    }
+                    i++;
+                    continue;
+                } catch (NumberFormatException e) {
+                    System.err.println("ERROR: Expected numerical value after '-w'");
+                    System.exit(1);
+                } catch (IllegalArgumentException e) {
+                    System.err.println("ERROR: Expected positive or zero value after '-w'");
+                    System.exit(1);
+                }
+            }
+            
+            if (currentArg.equals("-a")) {
+                if (i + 1 >= args.length) {
+                    break;
+                }
+                
+                argValue = args[i + 1];
+                try {
+                    int value = Integer.parseInt(argValue);
+                    age = value;
+                    if (age < 0) {
+                        throw new IllegalArgumentException();
+                    }
+                    i++;
+                    continue;
+                } catch (NumberFormatException e) {
+                    System.err.println("ERROR: Expected numerical value after '-a'");
+                    System.exit(1);
+                } catch (IllegalArgumentException e) {
+                    System.err.println("ERROR: Expected positive or zero value  after '-a'");
+                    System.exit(1);
+                }
+            }
+            
+            if (currentArg.equals("-s")) {
+                if (i + 1 >= args.length) {
+                    break;
+                }
+                
+                argValue = args[i + 1];
+                try {
+                    if (argValue.matches("^[mM]$")) {
+                        sex = "Male";
+                    } else if (argValue.matches("^[fF]$")) {
+                        sex = "Female";
+                    } else {
+                        throw new IllegalArgumentException();
+                    }
+                    i++;
+                    continue;
+                } catch (IllegalArgumentException e) {
+                    System.err.println("ERROR: Expected 'm' (male) or 'f' (female) after '-s'");
+                    System.exit(1);
+                }
+            }
+            
+            if (currentArg.endsWith(".tcx")) {
+                totalFiles.addLast(currentArg);
+            }
         }
     }
 }
