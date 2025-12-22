@@ -2,10 +2,13 @@ package com.hua.app.activityelements;
 
 import java.util.ArrayList;
 
+import com.hua.app.App;
 import com.hua.app.utilities.calories.CalorieCalculationManager;
+import com.hua.app.utilities.heartratezones.ZoneThresholdCreator;
 
 public class Activity {
     ArrayList<Lap> lapList;
+    int[] heartRateZoneDuration = null;
     private String activityType;
     
     public Activity(String activityType) {
@@ -78,12 +81,24 @@ public class Activity {
         return manager.calculate(this);
     }
     
-    public int[] getMhrZoneDuration(int[] mhrThreshold) {
+    private void calculateMhrZoneDuration() {
         int[] duration = new int[5];
+        int[] mhrThreshold = ZoneThresholdCreator.createThresholds(App.age);
         for (Lap lap : lapList) {
-            lap.getMhrZoneDuration(mhrThreshold, duration);
+            lap.calculateMhrZoneDuration(mhrThreshold, duration);
         }
         
-        return duration;
+        int total = 0;
+        for (int i = 0; i < 5; i++) {
+            total += duration[i];
+        }
+        if (total != 0) {
+            heartRateZoneDuration = duration;
+        }
+    }
+    
+    public int[] getMhrZoneDuration() {
+        calculateMhrZoneDuration();
+        return heartRateZoneDuration;
     }
 }

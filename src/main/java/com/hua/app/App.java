@@ -3,13 +3,12 @@ package com.hua.app;
 import com.hua.app.activityelements.Activity;
 import com.hua.app.utilities.calories.CalculatorFactory;
 import com.hua.app.utilities.calories.CalorieCalculationManager;
-import com.hua.app.utilities.heartratezones.ZoneThresholdCreator;
 import com.hua.app.utilities.xmlparser.XmlParser;
 import java.util.ArrayList;
 
 public class App {
     static double weight = 0;
-    static int age = 0;
+    public static int age = 0;
     static String sex = null;
     static ArrayList<String> totalFiles = new ArrayList<String>();
     
@@ -31,21 +30,22 @@ public class App {
                 System.out.println("* Avg Heart Rate: " + activity.getAverageHeartRate());
                 System.out.println("* Max Heart Rate: " + activity.getMaxHeartRate());
                 
+                int[] duration = activity.getMhrZoneDuration();
+                boolean hasHeartZones = false;
+                if (duration != null) {
+                    hasHeartZones = true;
+                    System.out.println("* Heart Rate Zones:");
+                    for (int i = 0; i < 5; i++) {
+                        System.out.println("    Zone" + (i + 1) + ": " + duration[i] + "s");
+                    }
+                }
+                
                 CalorieCalculationManager manager = new CalorieCalculationManager();
-                manager.setStrategy(CalculatorFactory.createCalculator(weight, age, sex));
+                manager.setStrategy(CalculatorFactory.createCalculator(weight, age, sex, hasHeartZones));
                 if (manager.formulaExists()) {
                     double value = manager.calculate(activity);
                     if (value != -1) {
                         System.out.printf("* Calories Expended: %.2f kcal\n", value);
-                    }
-                }
-                
-                if (age != 0) {
-                    int[] mhrThresholds = ZoneThresholdCreator.createThresholds(age);
-                    int[] duration = activity.getMhrZoneDuration(mhrThresholds);
-                    System.out.println("* HR Zones:");
-                    for (int i = 0; i < duration.length; i++) {
-                        System.out.println("    Time spent in Heart Zone " + (i + 1) + ": " + duration[i] + "s");
                     }
                 }
                 

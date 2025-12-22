@@ -52,9 +52,9 @@ public class Lap {
         return trackList.get(trackList.size() - 1).getDistance();
     }
     
-    public void getMhrZoneDuration(int[] mhrThreshold, int[] duration) {
+    public void calculateMhrZoneDuration(int[] mhrThreshold, int[] duration) {
         for (Track track : trackList) {
-            track.getMhrZoneDuration(mhrThreshold, duration);
+            track.calculateMhrZoneDuration(mhrThreshold, duration);
         }
     }
 }

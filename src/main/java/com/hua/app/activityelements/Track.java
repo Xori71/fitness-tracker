@@ -56,7 +56,7 @@ public class Track {
         return trackpointList.get(trackpointList.size() - 1).getDistance();
     }
     
-    public void getMhrZoneDuration(int[] mhrThreshold, int[] duration) {
+    public void calculateMhrZoneDuration(int[] mhrThreshold, int[] duration) {
         for (int i = 0; i < trackpointList.size() - 1; i++) {
             Trackpoint current = trackpointList.get(i);
             Trackpoint next = trackpointList.get(i + 1);
