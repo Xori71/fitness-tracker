@@ -20,38 +20,40 @@ public class App {
             activityArray = XmlParser.TcxParse(file, activityArray);
         }
         
-        for (Activity activity : activityArray) {
-            /* activityArray may be partially or entirely filled with null values */
-            if (activity != null) {
-                System.out.println("* Activity: " + activity.getActivityType());
-                System.out.println("* Total Time: " + activity.getFormattedDuration());
-                System.out.printf("* Total Distance: %.2fm\n", activity.getDistance());
-                System.out.printf("* Avg Speed: %.2f km/h\n", activity.getAverageSpeed());
-                System.out.println("* Avg Heart Rate: " + activity.getAverageHeartRate());
-                System.out.println("* Max Heart Rate: " + activity.getMaxHeartRate());
-                
-                int[] duration = activity.getMhrZoneDuration();
-                boolean hasHeartZones = false;
-                if (duration != null) {
-                    hasHeartZones = true;
-                    System.out.println("* Heart Rate Zones:");
-                    for (int i = 0; i < 5; i++) {
-                        System.out.println("    Zone" + (i + 1) + ": " + duration[i] + "s");
+        try {
+            for (Activity activity : activityArray) {
+                /* activityArray may be partially or entirely filled with null values */
+                if (activity != null) {
+                    System.out.println("* Activity: " + activity.getActivityType());
+                    System.out.println("* Total Time: " + activity.getFormattedDuration());
+                    System.out.printf("* Total Distance: %.2fm\n", activity.getDistance());
+                    System.out.printf("* Avg Speed: %.2f km/h\n", activity.getAverageSpeed());
+                    System.out.println("* Avg Heart Rate: " + activity.getAverageHeartRate());
+                    System.out.println("* Max Heart Rate: " + activity.getMaxHeartRate());
+                    
+                    int[] duration = activity.getMhrZoneDuration();
+                    boolean hasHeartZones = false;
+                    if (duration != null) {
+                        hasHeartZones = true;
+                        System.out.println("* Heart Rate Zones:");
+                        for (int i = 0; i < 5; i++) {
+                            System.out.println("    Zone" + (i + 1) + ": " + duration[i] + "s");
+                        }
                     }
-                }
-                
-                CalorieCalculationManager manager = new CalorieCalculationManager();
-                manager.setStrategy(CalculatorFactory.createCalculator(weight, age, sex, hasHeartZones));
-                if (manager.formulaExists()) {
-                    double value = manager.calculate(activity);
-                    if (value != -1) {
-                        System.out.printf("* Calories Expended: %.2f kcal\n", value);
+                    
+                    CalorieCalculationManager manager = new CalorieCalculationManager();
+                    manager.setStrategy(CalculatorFactory.createCalculator(weight, age, sex, hasHeartZones));
+                    if (manager.formulaExists()) {
+                        double value = manager.calculate(activity);
+                        if (value != -1) {
+                            System.out.printf("* Calories Expended: %.2f kcal\n", value);
+                        }
                     }
+                    
+                    System.out.println("----------------------------------------");
                 }
-                
-                System.out.println("----------------------------------------");
             }
-        }
+        } catch (NullPointerException e) {};
     }
     
     /* Parser for main's args array */

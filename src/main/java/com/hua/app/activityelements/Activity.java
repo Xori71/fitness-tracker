@@ -84,6 +84,10 @@ public class Activity {
     private void calculateMhrZoneDuration() {
         int[] duration = new int[5];
         int[] mhrThreshold = ZoneThresholdCreator.createThresholds(App.age);
+        if (mhrThreshold == null) {
+            return;
+        }
+        
         for (Lap lap : lapList) {
             lap.calculateMhrZoneDuration(mhrThreshold, duration);
         }
