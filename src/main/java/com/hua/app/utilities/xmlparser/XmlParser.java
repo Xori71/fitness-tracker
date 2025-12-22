@@ -71,7 +71,7 @@ public class XmlParser {
             return activityArray;
         } catch (Exception e) {
             System.out.println("Cannot open TCX file/s");
-            return null;
+            return activityArray;
         }
     }
     
