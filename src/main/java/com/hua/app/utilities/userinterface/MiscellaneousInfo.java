@@ -56,8 +56,8 @@ public class MiscellaneousInfo {
         weightFormat.setMaximumFractionDigits(2);
         NumberFormatter weightFormatter = new NumberFormatter(weightFormat);
         weightFormatter.setValueClass(Double.class);
-        weightFormatter.setMinimum(0);
-        weightFormatter.setMaximum(600);
+        weightFormatter.setMinimum(0.0);
+        weightFormatter.setMaximum(600.0);
         weightFormatter.setAllowsInvalid(true);
         weightField = new JFormattedTextField(weightFormatter);
         weightField.setValue(0.0);
