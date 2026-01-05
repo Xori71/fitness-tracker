@@ -47,7 +47,7 @@ public class MiscellaneousInfo {
         return selector;
 	}
 
-	private static Component setupWeightInput() {
+	private static JPanel setupWeightInput() {
 	    JPanel weightPanel = new JPanel(new FlowLayout(), true);
         weightPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -82,6 +82,7 @@ public class MiscellaneousInfo {
         ageField = new JFormattedTextField(ageFormatter);
         ageField.setValue(0);
         ageField.setColumns(3);
+        ageField.setFocusLostBehavior(0);
         
         agePanel.add(new JLabel("Enter your age (optional): "));
         agePanel.add(ageField);
