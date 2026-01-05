@@ -19,29 +19,35 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 public class FilePicker {
-    private static Set<File> fileList = new HashSet<>();
+    private Set<File> fileList;
+    private JPanel canvas;
     
-    public static JScrollPane instantiateFilePicker(JPanel canvas) {
+    public FilePicker(JPanel canvas) {
+        this.canvas = canvas;
+        this.fileList = new HashSet<>();
+    }
+    
+    public JScrollPane createFilePicker() {
         JPanel filePickerPanel = new JPanel(true);
         filePickerPanel.setLayout(new BoxLayout(filePickerPanel, BoxLayout.Y_AXIS));
-        setupFilePicker(filePickerPanel, canvas);
-        
+        setupFilePicker(filePickerPanel);
+                
         /* Make button column scrollable if it exceeds maximum height */
         JScrollPane scrollPanel = new JScrollPane(filePickerPanel);
         scrollPanel.getViewport().setBackground(Color.GRAY);
-        scrollPanel.setPreferredSize(new Dimension(350, 300));
+        scrollPanel.setPreferredSize(new Dimension(350, 150));
         scrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         /* Remove ugly line border */
-        scrollPanel.setBorder(BorderFactory.createEmptyBorder());
+        //scrollPanel.setBorder(BorderFactory.createEmptyBorder());
         
         return scrollPanel;
     }
     
-    public static Set<File> getFileList() {
+    public Set<File> getFileList() {
         return fileList;
     }
     
-    private static void setupFilePicker(JPanel filePickerPanel, JPanel canvas) {
+    private void setupFilePicker(JPanel filePickerPanel) {
         JButton button = new JButton("Choose a file");
         button.setFocusPainted(false);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -85,7 +91,7 @@ public class FilePicker {
                         source.putClientProperty("SelectedFile", selection);
                         button.setText(filename);
                         if (hasBeenClicked.get() == false) {
-                            addNewFileButton(filePickerPanel, canvas);
+                            addNewFileButton(filePickerPanel);
                             hasBeenClicked.set(true);
                         }
                     } else {
@@ -97,13 +103,13 @@ public class FilePicker {
             }
         });
         
-        filePickerPanel.add(button);
         /* Add space between buttons */
-        filePickerPanel.add(Box.createRigidArea(new Dimension(1, 10)));
+        filePickerPanel.add(Box.createRigidArea(new Dimension(1, 5)));
+        filePickerPanel.add(button);
     }
 
-	private static void addNewFileButton(JPanel filePickerPanel, JPanel canvas) {
-	    setupFilePicker(filePickerPanel, canvas);
+	private void addNewFileButton(JPanel filePickerPanel) {
+	    setupFilePicker(filePickerPanel);
 		/* For dynamic updating */
 		filePickerPanel.revalidate();
 		filePickerPanel.repaint();

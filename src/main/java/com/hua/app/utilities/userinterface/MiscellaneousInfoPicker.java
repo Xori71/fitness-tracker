@@ -10,12 +10,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.text.NumberFormatter;
 
-public class MiscellaneousInfo {
-    private static JFormattedTextField ageField;
-    private static JComboBox<String> selector;
-    private static JFormattedTextField weightField;
+public class MiscellaneousInfoPicker {
+    JPanel canvas;
+    private JFormattedTextField ageField;
+    private JComboBox<String> selector;
+    private JFormattedTextField weightField;
     
-    public static JPanel instantiateInfoPicker(JPanel canvas) {
+    public MiscellaneousInfoPicker(JPanel canvas) {
+        this.canvas = canvas;
+    }
+    
+    public JPanel createInfoPicker() {
         /* Base panel for all the info */
         JPanel infoPanel = new JPanel(true);
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
@@ -26,19 +31,19 @@ public class MiscellaneousInfo {
         return infoPanel;
     }
     
-    public static int getAgeInput() {
+    public int getAgeInput() {
         return (int) ageField.getValue();
     }
     
-    public static double getWeightInput() {
+    public double getWeightInput() {
         return (double) weightField.getValue();
     }
     
-    public static String getSexInput() {
+    public String getSexInput() {
         return (String) selector.getSelectedItem();
     }
     
-    private static JComboBox<String> setupSexInput() {
+    private JComboBox<String> setupSexInput() {
         selector = new JComboBox<>();
         selector.addItem("-");
         selector.addItem("Male");
@@ -47,7 +52,7 @@ public class MiscellaneousInfo {
         return selector;
 	}
 
-	private static JPanel setupWeightInput() {
+	private JPanel setupWeightInput() {
 	    JPanel weightPanel = new JPanel(new FlowLayout(), true);
         weightPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -69,7 +74,7 @@ public class MiscellaneousInfo {
         return weightPanel;
 	}
 
-	private static JPanel setupAgeInput() {
+	private JPanel setupAgeInput() {
         JPanel agePanel = new JPanel(new FlowLayout(), true);
         agePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
