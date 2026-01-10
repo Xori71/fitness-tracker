@@ -2,6 +2,6 @@ package com.hua.app.utilities.calories;
 
 import com.hua.app.activityelements.Activity;
 
-public interface CalorieCalculationFormula {
+public interface CalorieCalcFormula {
     public double calculate(Activity activity);
 }

@@ -1,8 +1,8 @@
 package com.hua.app;
 
 import com.hua.app.activityelements.Activity;
-import com.hua.app.utilities.calories.CalculatorFactory;
-import com.hua.app.utilities.calories.CalorieCalculationManager;
+import com.hua.app.utilities.calories.CalcFactory;
+import com.hua.app.utilities.calories.CalorieCalcManager;
 import com.hua.app.utilities.xmlparser.XmlParser;
 import java.util.ArrayList;
 
@@ -40,8 +40,8 @@ public class App {
                     }
                 }
                 
-                CalorieCalculationManager manager = new CalorieCalculationManager();
-                manager.setStrategy(CalculatorFactory.createCalculator(weight, age, sex, hasHeartZones));
+                CalorieCalcManager manager = new CalorieCalcManager();
+                manager.setStrategy(CalcFactory.createCalculator(weight, age, sex));
                 if (manager.formulaExists()) {
                     double value = manager.calculate(activity);
                     if (value != -1) {

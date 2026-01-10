@@ -2,10 +2,10 @@ package com.hua.app.utilities.calories;
 
 import com.hua.app.activityelements.Activity;
 
-public class SimpleCalorieCalculator implements CalorieCalculationFormula {
+public class SimpleCalorieCalc implements CalorieCalcFormula {
     private double weight;
     
-    public SimpleCalorieCalculator(double weight) {
+    public SimpleCalorieCalc(double weight) {
         this.weight = weight;
     }
     

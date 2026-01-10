@@ -1,4 +1,4 @@
-package com.hua.app.utilities.userinterface;
+package com.hua.app.utilities.userinterface.graphics;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -40,7 +40,11 @@ public class MiscellaneousInfoPicker {
     }
     
     public String getSexInput() {
-        return (String) selector.getSelectedItem();
+        if (selector.getSelectedItem().equals("-")) {
+            return null;
+        } else {
+            return (String) selector.getSelectedItem();
+        }
     }
     
     private JComboBox<String> setupSexInput() {

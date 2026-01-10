@@ -2,10 +2,10 @@ package com.hua.app.utilities.calories;
 
 import com.hua.app.activityelements.Activity;
 
-public class CalorieCalculationManager {
-    CalorieCalculationFormula formula = null;
+public class CalorieCalcManager {
+    CalorieCalcFormula formula = null;
     
-    public void setStrategy(CalorieCalculationFormula formula) {
+    public void setStrategy(CalorieCalcFormula formula) {
         this.formula = formula;
     }
     

@@ -2,12 +2,12 @@ package com.hua.app.utilities.calories;
 
 import com.hua.app.activityelements.Activity;
 
-public class ComplexCalorieCalculator implements CalorieCalculationFormula{
+public class ComplexCalorieCalc implements CalorieCalcFormula{
     private double weight;
     private int age;
     private String sex;
     
-    public ComplexCalorieCalculator(int age, String sex, double weight) {
+    public ComplexCalorieCalc(int age, String sex, double weight) {
         this.age = age;
         this.sex = sex;
         this.weight = weight;
