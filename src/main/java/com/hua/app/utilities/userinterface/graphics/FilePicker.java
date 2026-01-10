@@ -1,4 +1,4 @@
-package com.hua.app.utilities.userinterface;
+package com.hua.app.utilities.userinterface.graphics;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -104,7 +103,7 @@ public class FilePicker {
         });
         
         /* Add space between buttons */
-        filePickerPanel.add(Box.createRigidArea(new Dimension(1, 5)));
+        filePickerPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         filePickerPanel.add(button);
     }
 

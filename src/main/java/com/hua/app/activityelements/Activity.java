@@ -3,7 +3,7 @@ package com.hua.app.activityelements;
 import java.util.ArrayList;
 
 import com.hua.app.App;
-import com.hua.app.utilities.calories.CalorieCalculationManager;
+import com.hua.app.utilities.calories.CalorieCalcManager;
 import com.hua.app.utilities.heartratezones.ZoneThresholdCreator;
 
 public class Activity {
@@ -77,7 +77,7 @@ public class Activity {
         return (getDistance() / 1000) / (seconds / 3600);
     }
     
-    public double getCaloricExpenditure(CalorieCalculationManager manager) {
+    public double getCaloricExpenditure(CalorieCalcManager manager) {
         return manager.calculate(this);
     }
     
