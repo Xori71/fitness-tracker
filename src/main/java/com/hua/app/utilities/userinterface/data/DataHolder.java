@@ -25,6 +25,7 @@ public class DataHolder {
         sex = null;
         fileList = new HashSet<>();
         activityList = new ArrayList<>();
+        customActivityList = new ArrayList<>();
         formula = null;
     }
     
