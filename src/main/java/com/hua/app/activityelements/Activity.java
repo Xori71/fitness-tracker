@@ -2,18 +2,17 @@ package com.hua.app.activityelements;
 
 import java.util.ArrayList;
 
-import com.hua.app.App;
 import com.hua.app.utilities.calories.CalorieCalcManager;
-import com.hua.app.utilities.heartratezones.ZoneThresholdCreator;
 
 public class Activity {
-    ArrayList<Lap> lapList;
-    int[] heartRateZoneDuration = null;
+    private ArrayList<Lap> lapList;
+    private CalorieCalcManager manager;
     private String activityType;
     
     public Activity(String activityType) {
         this.activityType = activityType;
         lapList = new ArrayList<Lap>();
+        manager = null;
     }
     
     public void addLap(Lap lap) {
@@ -77,32 +76,11 @@ public class Activity {
         return (getDistance() / 1000) / (seconds / 3600);
     }
     
-    public double getCaloricExpenditure(CalorieCalcManager manager) {
+    public double getCaloriesBurned() {
         return manager.calculate(this);
     }
     
-    private void calculateMhrZoneDuration() {
-        int[] duration = new int[5];
-        int[] mhrThreshold = ZoneThresholdCreator.createThresholds(App.age);
-        if (mhrThreshold == null) {
-            return;
-        }
-        
-        for (Lap lap : lapList) {
-            lap.calculateMhrZoneDuration(mhrThreshold, duration);
-        }
-        
-        int total = 0;
-        for (int i = 0; i < 5; i++) {
-            total += duration[i];
-        }
-        if (total != 0) {
-            heartRateZoneDuration = duration;
-        }
-    }
-    
-    public int[] getMhrZoneDuration() {
-        calculateMhrZoneDuration();
-        return heartRateZoneDuration;
+    public void setManager(CalorieCalcManager manager) {
+        this.manager = manager;
     }
 }

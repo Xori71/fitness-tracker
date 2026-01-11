@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.Box;
@@ -17,13 +15,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import com.hua.app.utilities.userinterface.data.DataHolder;
+
 public class FilePicker {
-    private Set<File> fileList;
+    private DataHolder data;
     private JPanel canvas;
     
-    public FilePicker(JPanel canvas) {
+    public FilePicker(JPanel canvas, DataHolder data) {
         this.canvas = canvas;
-        this.fileList = new HashSet<>();
+        this.data = data;
     }
     
     public JScrollPane createFilePicker() {
@@ -40,10 +40,6 @@ public class FilePicker {
         //scrollPanel.setBorder(BorderFactory.createEmptyBorder());
         
         return scrollPanel;
-    }
-    
-    public Set<File> getFileList() {
-        return fileList;
     }
     
     private void setupFilePicker(JPanel filePickerPanel) {
@@ -80,12 +76,12 @@ public class FilePicker {
                 int dotIndex = filename.lastIndexOf('.');
                 String extension = (dotIndex > 0) ? filename.substring(dotIndex + 1) : "";
                 if (extension.equals("tcx")) {
-                    if (!fileList.contains(selection)) {
+                    if (!data.getFileList().contains(selection)) {
                         if (hasBeenClicked.get() == true && previousSelection != null) {
                             /* Remove old file after editing selection */
-                            fileList.remove(previousSelection);
+                            data.getFileList().remove(previousSelection);
                         }
-                        fileList.add(selection);
+                        data.getFileList().add(selection);
                         /* Save new selection into button */
                         source.putClientProperty("SelectedFile", selection);
                         button.setText(filename);

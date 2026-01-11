@@ -45,7 +45,7 @@ public class CalorieWindow {
         JButton proceedButton = new JButton("Proceed");
         proceedButton.addActionListener(l -> {
             if (isSelectionValid() && switchCommand != null) {
-                data.setFormula(CalcFactory.createCalculator(data.getWeight(), data.getAge(), data.getSex()));
+                data.setFormula(CalcFactory.createCalculator(data));
                 switchCommand.run();
                 popupWindow.dispose();
             }

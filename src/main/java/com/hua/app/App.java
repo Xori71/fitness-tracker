@@ -16,9 +16,9 @@ public class App {
         parseArgs(args);
         
         ArrayList<Activity> activityArray = new ArrayList<Activity>();
-        for (String file : totalFiles) {
-            activityArray = XmlParser.TcxParse(file, activityArray);
-        }
+        //    for (String file : totalFiles) {
+        //        activityArray = XmlParser.TcxParse(file, activityArray);
+        //    }
         
         for (Activity activity : activityArray) {
             /* activityArray may be partially or entirely filled with null values */
@@ -30,18 +30,8 @@ public class App {
                 System.out.println("* Avg Heart Rate: " + activity.getAverageHeartRate());
                 System.out.println("* Max Heart Rate: " + activity.getMaxHeartRate());
                 
-                int[] duration = activity.getMhrZoneDuration();
-                boolean hasHeartZones = false;
-                if (duration != null) {
-                    hasHeartZones = true;
-                    System.out.println("* Heart Rate Zones:");
-                    for (int i = 0; i < 5; i++) {
-                        System.out.println("    Zone" + (i + 1) + ": " + duration[i] + "s");
-                    }
-                }
-                
                 CalorieCalcManager manager = new CalorieCalcManager();
-                manager.setStrategy(CalcFactory.createCalculator(weight, age, sex));
+                // manager.setStrategy(CalcFactory.createCalculator(weight, age, sex));
                 if (manager.formulaExists()) {
                     double value = manager.calculate(activity);
                     if (value != -1) {
