@@ -1,14 +1,16 @@
 package com.hua.app.utilities.calories;
 
+import com.hua.app.utilities.userinterface.data.DataHolder;
+
 public class CalcFactory {
-    public static CalorieCalcFormula createCalculator(double weight, int age, String sex) {
-        if (weight == 0) {
+    public static CalorieCalcFormula createCalculator(DataHolder data) {
+        if (data.getWeight() == 0) {
             return null;
         }
-        if (age == 0 || sex == null) {
-            return new SimpleCalorieCalc(weight);
+        if (data.getAge() == 0 || data.getSex() == null) {
+            return new SimpleCalorieCalc(data.getWeight());
         } else {
-            return new ComplexCalorieCalc(age, sex, weight);
+            return new ComplexCalorieCalc(data);
         }
     }
 }

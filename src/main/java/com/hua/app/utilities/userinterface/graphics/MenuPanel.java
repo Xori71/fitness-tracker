@@ -35,7 +35,7 @@ public class MenuPanel {
         menuPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         
-        FilePicker filePicker = new FilePicker(menuPanel);
+        FilePicker filePicker = new FilePicker(menuPanel, data);
         MiscellaneousInfoPicker infoPicker = new MiscellaneousInfoPicker(menuPanel);
         
         c.insets = new Insets(5, 5, 5, 5);
@@ -46,18 +46,31 @@ public class MenuPanel {
         c.gridy = 0;
         menuPanel.add(infoPicker.createInfoPicker(), c);
         
+        JButton customActivityButton = new JButton("Add custom activity");
+        customActivityButton.addActionListener(l -> {
+            SwingUtilities.invokeLater(() -> {
+               @SuppressWarnings("unused")
+			   CustomActivityWindow customActivityWindow = new CustomActivityWindow(data); 
+            });
+        });
+        
+        c.gridx = 0;
+        c.gridy = 1;
+        c.gridwidth = 2;
+        c.anchor = GridBagConstraints.LINE_START;
+        c.fill = GridBagConstraints.NONE;
+        menuPanel.add(customActivityButton, c);
+        
         JButton proceedButton = new JButton("Proceed");
         proceedButton.addActionListener(l -> {
             data.setAge(infoPicker.getAgeInput());
             data.setWeight(infoPicker.getWeightInput());
             data.setSex(infoPicker.getSexInput());
-            data.setFileList(filePicker.getFileList());
-            
             calorieWindow.setVisibility(true);
         });
         
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = 2;
         c.gridwidth = 2;
         c.anchor = GridBagConstraints.CENTER;
         c.fill = GridBagConstraints.NONE;
