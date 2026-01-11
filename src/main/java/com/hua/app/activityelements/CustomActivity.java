@@ -93,6 +93,4 @@ public class CustomActivity {
 	    caloriesBurned = calculateCaloriesBurned();
 		return caloriesBurned;
 	}
-	
-	
 }
