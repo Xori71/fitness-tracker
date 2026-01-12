@@ -10,13 +10,14 @@ import com.hua.app.activityelements.Activity;
 import com.hua.app.activityelements.CustomActivity;
 import com.hua.app.utilities.calories.CalorieCalcManager;
 import com.hua.app.utilities.userinterface.data.DataHolder;
-
 public class ResultsPanel {
     /* TODO: This class should create a calorie calulation manager and pass it on to every activity via setters */
     
     private JPanel baseResultsPanel;
     private DataHolder data;
     private CalorieCalcManager manager;
+
+    
     private Runnable switchBackCommand;
     private String greeting = "\r\n" + //
                 "What is Lorem Ipsum?\r\n" + //
@@ -34,7 +35,7 @@ public class ResultsPanel {
                 "Where can I get some?\r\n" + //
                 "\r\n" + //
                 "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.";
-
+     
 
     public ResultsPanel(DataHolder data, Runnable switchBackCommand) {
         this.data = data;
@@ -47,7 +48,7 @@ public class ResultsPanel {
     private void create() {
         baseResultsPanel = new JPanel(true);
         baseResultsPanel.setLayout(new BoxLayout(baseResultsPanel, BoxLayout.Y_AXIS));
-        
+
 
         JTextArea textArea = new JTextArea(greeting);
         textArea.setOpaque(false);
@@ -71,7 +72,7 @@ public class ResultsPanel {
         //baseResultsPanel.add(textArea);
         baseResultsPanel.add(proceedButton);
     }
-    
+
     private JPanel createEntry(Activity activity) {
         JPanel entry = new JPanel(true);
         return entry;
