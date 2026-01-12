@@ -46,7 +46,9 @@ public class CalorieWindow {
         proceedButton.addActionListener(l -> {
             if (isSelectionValid() && switchCommand != null) {
                 data.setFormula(CalcFactory.createCalculator(data));
+                data.populateActivityList();
                 switchCommand.run();
+                data.clearActivityList();
                 popupWindow.dispose();
             }
         });

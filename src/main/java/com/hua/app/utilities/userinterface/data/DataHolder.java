@@ -73,6 +73,9 @@ public class DataHolder {
         XmlParser parser = new XmlParser();
         parser.TcxParse(fileList, activityList);
     }
+    public void clearActivityList() {
+        activityList.clear();
+    }
     
     public ArrayList<Activity> getActivityList() {
         return activityList;
