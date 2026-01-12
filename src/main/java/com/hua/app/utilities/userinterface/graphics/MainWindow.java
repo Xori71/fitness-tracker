@@ -12,6 +12,7 @@ public class MainWindow {
     
     private void create() {
         mainWindow = new JFrame("Fitness Tracker");
+        mainWindow.setName("Fitness Tracker");
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.setMinimumSize(new Dimension(685, 285));
         mainWindow.setLocationRelativeTo(null);

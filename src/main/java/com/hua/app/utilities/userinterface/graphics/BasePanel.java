@@ -31,12 +31,16 @@ public class BasePanel {
          * selection). Below is a type of listener that I propagate down until it reaches the
          * popup class, so it can be triggered once the popup gives the "okay".
          */
+        
+            
+        
         Runnable switchCommand = () -> c.show(basePanel, "RESULTS");
+        Runnable switchBackCommand = () -> c.show(basePanel, "MENU");
         
         MenuPanel menuPanel = new MenuPanel(data, switchCommand);
         basePanel.add(menuPanel.getPanel(), "MENU");
-        // ResultsPanel resultsPanel = new ResultsPanel(...);
-        // basePanel.add(resultsPanel.getInstance(), "RESULTS");
+        ResultsPanel resultsPanel = new ResultsPanel(data, switchBackCommand);
+        basePanel.add(resultsPanel.getInstance(), "RESULTS");
         
         /* TODO */
     }
