@@ -1,26 +1,17 @@
 package com.hua.app;
 
 import com.hua.app.activityelements.Activity;
-import com.hua.app.utilities.calories.CalcFactory;
 import com.hua.app.utilities.calories.CalorieCalcManager;
-import com.hua.app.utilities.xmlparser.XmlParser;
-import java.util.ArrayList;
+import com.hua.app.utilities.userinterface.data.DataHolder;
+import java.io.File;
 
 public class App {
-    static double weight = 0;
-    public static int age = 0;
-    static String sex = null;
-    static ArrayList<String> totalFiles = new ArrayList<String>();
-    
     public static void main(String[] args) {
-        parseArgs(args);
+        DataHolder data = new DataHolder();
+        parseArgs(args, data);
         
-        ArrayList<Activity> activityArray = new ArrayList<Activity>();
-        //    for (String file : totalFiles) {
-        //        activityArray = XmlParser.TcxParse(file, activityArray);
-        //    }
-        
-        for (Activity activity : activityArray) {
+        data.populateActivityList();
+        for (Activity activity : data.getActivityList()) {
             /* activityArray may be partially or entirely filled with null values */
             if (activity != null) {
                 System.out.println("* Activity: " + activity.getActivityType());
@@ -45,7 +36,7 @@ public class App {
     }
     
     /* Parser for main's args array */
-    private static void parseArgs(String[] args) {
+    private static void parseArgs(String[] args, DataHolder data) {
         for (int i = 0; i < args.length; i++) {
             String currentArg = args[i];
             String argValue = null;
@@ -58,8 +49,8 @@ public class App {
                 argValue = args[i + 1];
                 try {
                     double value = Double.parseDouble(argValue);
-                    weight = value;
-                    if (weight < 0) {
+                    data.setWeight(value);
+                    if (data.getWeight() < 0) {
                         throw new IllegalArgumentException();
                     }
                     i++;
@@ -81,8 +72,8 @@ public class App {
                 argValue = args[i + 1];
                 try {
                     int value = Integer.parseInt(argValue);
-                    age = value;
-                    if (age < 0) {
+                    data.setAge(value);
+                    if (data.getAge() < 0) {
                         throw new IllegalArgumentException();
                     }
                     i++;
@@ -104,9 +95,9 @@ public class App {
                 argValue = args[i + 1];
                 try {
                     if (argValue.matches("^[mM]$")) {
-                        sex = "Male";
+                        data.setSex("Male");
                     } else if (argValue.matches("^[fF]$")) {
-                        sex = "Female";
+                        data.setSex("Female");
                     } else {
                         throw new IllegalArgumentException();
                     }
@@ -119,7 +110,8 @@ public class App {
             }
             
             if (currentArg.endsWith(".tcx")) {
-                totalFiles.addLast(currentArg);
+                File file = new File(currentArg);
+                data.getFileList().add(file);
             }
         }
     }
