@@ -63,20 +63,50 @@ public class ResultsPanel {
     }
 
     public void updateDisplay(){
+        manager.setStrategy(data.getFormula());
         StringBuilder sb = new StringBuilder();
-            for (Activity activity : data.getActivityList()) {
-                String formattedEntry = String.format(
-                "* Activity: %s\n* Total Time: %s\n* Total Distance: %.2fm\n* Avg Speed: %.2f km/h\n* Avg Heart Rate: %s\n* Max Heart Rate: %s\n" + //
-                                "\n", 
-                activity.getActivityType(),            // Assuming this returns a String
-                activity.getFormattedDuration(), // Assuming this returns a String
-                activity.getDistance(), // Use parseDouble if getDistance() returns a String
-                activity.getAverageSpeed(),
-                activity.getAverageHeartRate(),
-                activity.getMaxHeartRate()
-                );
-                sb.append(formattedEntry);
-                sb.append("--------------------------\n");
+        double value = 0;
+            if (data.getActivityList() != null){
+                for (Activity activity : data.getActivityList()) {
+                    
+                    if (manager.formulaExists()) {
+                        value = manager.calculate(activity);
+                        if (value != -1) {
+                           // sb.append("* Calories Expended: %.2f kcal\n" + value);
+                        }
+                    }
+                    
+                    String formattedEntry = String.format(
+                    "* Activity: %s\n* Total Time: %s\n* Total Distance: %.2fm\n* Avg Speed: %.2f km/h\n* Avg Heart Rate: %s\n* Max Heart Rate: %s\n* Calories Burned: %.2f" +
+                                    "\n", 
+                    activity.getActivityType(),            
+                    activity.getFormattedDuration(), 
+                    activity.getDistance(), 
+                    activity.getAverageSpeed(),
+                    activity.getAverageHeartRate(),
+                    activity.getMaxHeartRate(),
+                    value
+                    );
+        
+                    sb.append(formattedEntry);
+                    sb.append("--------------------------\n");
+                }
+            }
+            if (data.getCustomActivityList() != null){
+                for (CustomActivity customActivity : data.getCustomActivityList()) {
+                    String formattedEntry = String.format(
+                    "* Activity: %s\n* Total Time: %s\n* Total Distance: %s\n* Avg Speed: %s km/h\n* Avg Heart Rate: %s\n* Max Heart Rate: %s\n" + //
+                                    "\n", 
+                    customActivity.getType(),            // Assuming this returns a String
+                    customActivity.getDuration(), // Assuming this returns a String
+                    customActivity.getDistance(), // Use parseDouble if getDistance() returns a String
+                    customActivity.getAverageSpeed(),
+                    customActivity.getAverageHeartRate(),
+                    customActivity.getMaxHeartRate()
+                    );
+                    sb.append(formattedEntry);
+                    sb.append("--------------------------\n");
+                }
             }
         textArea.setText(sb.toString());
         textArea.setCaretPosition(0);
