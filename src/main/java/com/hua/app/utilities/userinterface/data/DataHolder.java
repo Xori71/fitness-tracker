@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.hua.app.activityelements.Activity;
-import com.hua.app.utilities.calories.CalorieCalcFormula;
+import com.hua.app.utilities.calories.Formula;
 import com.hua.app.utilities.xmlparser.XmlParser;
 
 public class DataHolder {
@@ -15,7 +15,7 @@ public class DataHolder {
     private String sex;
     private Set<File> fileList;
     private ArrayList<Activity> activityList;
-    private CalorieCalcFormula formula;
+    private Formula formula;
     
     public DataHolder() {
         age = 0;
@@ -26,11 +26,11 @@ public class DataHolder {
         formula = null;
     }
     
-    public void setFormula(CalorieCalcFormula formula) {
+    public void setFormula(Formula formula) {
         this.formula = formula;
     }
     
-    public CalorieCalcFormula getFormula() {
+    public Formula getFormula() {
         return formula;
     }
 
