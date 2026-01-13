@@ -1,7 +1,6 @@
 package com.hua.app.utilities.calories;
 
 import com.hua.app.activityelements.Activity;
-import com.hua.app.activityelements.CustomActivity;
 
 public class CalorieCalcManager {
     CalorieCalcFormula formula = null;
@@ -19,12 +18,5 @@ public class CalorieCalcManager {
             return 0.0;
         }
         return formula.calculate(activity);
-    }
-    
-    public double calculate(CustomActivity customActivity) {
-        if (formula == null) {
-            return 0.0;
-        }
-        return formula.calculate(customActivity);
     }
 }
