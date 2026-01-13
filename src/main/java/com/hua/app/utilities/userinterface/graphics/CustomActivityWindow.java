@@ -13,6 +13,10 @@ import javax.swing.JTextField;
 import com.hua.app.activityelements.CustomActivity;
 import com.hua.app.utilities.userinterface.data.DataHolder;
 
+/**
+ * This class creates a popup window for the configuration of a custom activity. It has various fields with all of them requiring a value.
+ */
+
 public class CustomActivityWindow {
     JFrame popupWindow;
     DataHolder data;

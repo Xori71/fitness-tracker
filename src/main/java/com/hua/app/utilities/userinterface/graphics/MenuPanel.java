@@ -12,6 +12,10 @@ import javax.swing.SwingUtilities;
 
 import com.hua.app.utilities.userinterface.data.DataHolder;
 
+/** 
+ * The panel that represents the main menu. The file picker and miscellaneous info picker reside in it.
+ */
+
 public class MenuPanel {
     private JPanel menuPanel;
     private MiscellaneousInfoPicker infoPicker;

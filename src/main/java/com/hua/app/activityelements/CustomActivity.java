@@ -111,6 +111,9 @@ public class CustomActivity implements Activity {
 	}
 	
 	private double calculateCalories() {
-	    return manager.calculate(this);
-	}
+        if (manager != null) {
+            return manager.calculate(this);
+        }
+        return 0.0;
+    }
 }

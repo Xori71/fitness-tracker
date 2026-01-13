@@ -16,6 +16,11 @@ import javax.swing.JTextField;
 import com.hua.app.utilities.calories.FormulaPicker;
 import com.hua.app.utilities.userinterface.data.DataHolder;
 
+/**
+ * This class creates a popup window for the input of a desired formula/daily calorie target. Whether or not the window appears
+ * depends on the amount of information the user has given the program, with the respective checks being handled by the caller class.
+ */
+
 public class CalorieWindow {
     private JFrame popupWindow;
     private JPanel menuPanel;

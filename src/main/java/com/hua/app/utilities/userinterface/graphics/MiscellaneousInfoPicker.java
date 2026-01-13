@@ -5,6 +5,10 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * The class that creates the three input fields for age, weight, and sex.
+ */
+
 public class MiscellaneousInfoPicker {
     private JTextField ageField;
     private JComboBox<String> selector;
@@ -25,11 +29,19 @@ public class MiscellaneousInfoPicker {
     }
     
     public int getAgeInput() {
-        return Integer.parseInt(ageField.getText());
+        if (!ageField.getText().equals("")) {
+            return Integer.parseInt(ageField.getText());
+        }
+        
+        return 0;
     }
     
     public double getWeightInput() {
-        return Double.parseDouble(weightField.getText());
+        if (!ageField.getText().equals("")) {
+            return Double.parseDouble(weightField.getText());
+        }
+        
+        return 0;
     }
     
     public String getSexInput() {

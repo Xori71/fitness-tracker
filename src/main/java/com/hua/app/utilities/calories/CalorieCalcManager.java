@@ -2,6 +2,11 @@ package com.hua.app.utilities.calories;
 
 import com.hua.app.activityelements.Activity;
 
+/**
+ * This class is meant to handle all the calorie calculations. Activity objects receive the created
+ * manager via a setter, and use it to produce a number representing burned calories. 
+ */
+ 
 public class CalorieCalcManager {
     Formula formula = null;
     

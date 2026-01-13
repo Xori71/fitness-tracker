@@ -2,7 +2,9 @@ package com.hua.app.utilities.userinterface.data;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import com.hua.app.activityelements.Activity;
@@ -24,13 +26,16 @@ public class DataHolder {
     private ArrayList<Activity> activityList;
     private Formula formula;
     private double calorieTarget;
+    private Map<String, Double> dailyBurnedCalories;
     
     public DataHolder() {
         age = 0;
         weight = 0;
         sex = null;
         fileList = new HashSet<>();
+        fileListHistory = new HashSet<>();
         activityList = new ArrayList<>();
+        dailyBurnedCalories = new HashMap<>();
         formula = null;
         calorieTarget = -1;
     }
@@ -86,6 +91,10 @@ public class DataHolder {
     
     public double getCalorieTarget() {
         return calorieTarget;
+    }
+    
+    public void recordDateAndCalories(String date, double calories) {
+        dailyBurnedCalories.merge(date, calories, Double::sum);
     }
     
     public ArrayList<Activity> getActivityList() {

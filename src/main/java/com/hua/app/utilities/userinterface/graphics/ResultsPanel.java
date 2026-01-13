@@ -11,6 +11,11 @@ import com.hua.app.activityelements.Activity;
 import com.hua.app.utilities.calories.CalorieCalcManager;
 import com.hua.app.utilities.userinterface.data.DataHolder;
 
+/** 
+ * The panel responsible for the display of the calculations, as well as various other secondary data (Possible diviation
+ * from daily calorie target, summation of various activity data)
+ */
+
 public class ResultsPanel {
     private JPanel baseResultsPanel;
     private DataHolder data;
@@ -21,8 +26,10 @@ public class ResultsPanel {
     public ResultsPanel(DataHolder data, Runnable switchToMenu) {
         this.data = data;
         this.switchToMenu = switchToMenu;
-        manager = new CalorieCalcManager();
-        manager.setFormula(data.getFormula());
+        if (data.getFormula() != null) {
+            manager = new CalorieCalcManager();
+            manager.setFormula(data.getFormula());
+        }
         create();
     }
     
@@ -60,35 +67,35 @@ public class ResultsPanel {
         baseResultsPanel.add(proceedButton);
     }
 
-    public void updateDisplay(){
+    public void updateDisplay() {
         StringBuilder sb = new StringBuilder();
-        double value = 0;
-            if (data.getActivityList() != null){
-                for (Activity activity : data.getActivityList()) {
-                    
-                    if (manager.formulaExists()) {
-                        value = manager.calculate(activity);
-                        if (value != 0) {
-                           // sb.append("* Calories Expended: %.2f kcal\n" + value);
-                        }
-                    }
-                    
-                    String formattedEntry = String.format(
-                    "* Activity: %s\n* Total Time: %s\n* Total Distance: %.2fm\n* Avg Speed: %.2f km/h\n* Avg Heart Rate: %s\n* Max Heart Rate: %s\n* Calories Burned: %.2f" +
-                                    "\n", 
-                    activity.getType(),            
-                    activity.getDuration(), 
-                    activity.getDistance(), 
-                    activity.getAverageSpeed(),
-                    activity.getAverageHeartRate(),
-                    activity.getMaxHeartRate(),
-                    value
-                    );
-        
-                    sb.append(formattedEntry);
-                    sb.append("--------------------------\n");
+        //double value = 0;
+        if (data.getActivityList() != null){
+            for (Activity activity : data.getActivityList()) {
+                activity.setManager(manager);
+                activity.calculateData();
+                
+                if (data.getCalorieTarget() != -1 && activity.getCalories() != 0.0) {
+                    data.recordDateAndCalories(activity.getDate(), activity.getCalories());
+                    // sb.append("* Calories Expended: %.2f kcal\n" + value);
                 }
+                
+                String formattedEntry = String.format(
+                "* Activity: %s\n* Total Time: %s\n* Total Distance: %.2fm\n* Avg Speed: %.2f km/h\n* Avg Heart Rate: %s\n* Max Heart Rate: %s\n* Calories Burned: %.2f" +
+                                "\n", 
+                activity.getType(),            
+                activity.getDuration(), 
+                activity.getDistance(), 
+                activity.getAverageSpeed(),
+                activity.getAverageHeartRate(),
+                activity.getMaxHeartRate(),
+                activity.getCalories()
+                );
+                
+                sb.append(formattedEntry);
+                sb.append("--------------------------\n");
             }
+        }
         textArea.setText(sb.toString());
         textArea.setCaretPosition(0);
         
