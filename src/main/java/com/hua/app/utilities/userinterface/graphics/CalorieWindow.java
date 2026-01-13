@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.hua.app.utilities.calories.CalcFactory;
+import com.hua.app.utilities.calories.FormulaPicker;
 import com.hua.app.utilities.userinterface.data.DataHolder;
 
 public class CalorieWindow {
@@ -45,8 +45,7 @@ public class CalorieWindow {
         JButton proceedButton = new JButton("Proceed");
         proceedButton.addActionListener(l -> {
             if (isSelectionValid() && switchCommand != null) {
-                data.setFormula(CalcFactory.createCalculator(data));
-                data.populateActivityList();
+                FormulaPicker.chooseFormula(data);
                 switchCommand.run();
                 data.clearActivityList();
                 popupWindow.dispose();

@@ -1,6 +1,7 @@
 package com.hua.app;
 
 import com.hua.app.activityelements.Activity;
+import com.hua.app.utilities.calories.FormulaPicker;
 import com.hua.app.utilities.calories.CalorieCalcManager;
 import com.hua.app.utilities.userinterface.data.DataHolder;
 import java.io.File;
@@ -9,27 +10,28 @@ public class App {
     public static void main(String[] args) {
         DataHolder data = new DataHolder();
         parseArgs(args, data);
-        
         data.populateActivityList();
+        
+        FormulaPicker.chooseFormula(data);
+        CalorieCalcManager manager = new CalorieCalcManager();
+        manager.setFormula(data.getFormula());
+        
         for (Activity activity : data.getActivityList()) {
             /* activityArray may be partially or entirely filled with null values */
             if (activity != null) {
-                System.out.println("* Activity: " + activity.getActivityType());
-                System.out.println("* Total Time: " + activity.getFormattedDuration());
+                activity.setManager(manager);
+                activity.calculateData();
+                
+                System.out.println("* Activity: " + activity.getType());
+                System.out.println("* Date: " + activity.getDate());
+                System.out.println("* Total Time: " + activity.getDuration());
                 System.out.printf("* Total Distance: %.2fm\n", activity.getDistance());
                 System.out.printf("* Avg Speed: %.2f km/h\n", activity.getAverageSpeed());
                 System.out.println("* Avg Heart Rate: " + activity.getAverageHeartRate());
                 System.out.println("* Max Heart Rate: " + activity.getMaxHeartRate());
-
-                CalorieCalcManager manager = new CalorieCalcManager();
-                // manager.setStrategy(CalcFactory.createCalculator(weight, age, sex));
-                if (manager.formulaExists()) {
-                    double value = manager.calculate(activity);
-                    if (value != -1) {
-                        System.out.printf("* Calories Expended: %.2f kcal\n", value);
-                    }
+                if (activity.getCalories() != 0) {
+                    System.out.println("* Calories: " + activity.getCalories());
                 }
-                
                 System.out.println("----------------------------------------");
             }
         }

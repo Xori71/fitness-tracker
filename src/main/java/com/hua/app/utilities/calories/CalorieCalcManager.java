@@ -1,17 +1,12 @@
 package com.hua.app.utilities.calories;
 
 import com.hua.app.activityelements.Activity;
-import com.hua.app.activityelements.CustomActivity;
 
 public class CalorieCalcManager {
-    CalorieCalcFormula formula = null;
+    Formula formula = null;
     
-    public void setStrategy(CalorieCalcFormula formula) {
+    public void setFormula(Formula formula) {
         this.formula = formula;
-    }
-    
-    public boolean formulaExists() {
-        return formula != null;
     }
     
     public double calculate(Activity activity) {
@@ -19,12 +14,5 @@ public class CalorieCalcManager {
             return 0.0;
         }
         return formula.calculate(activity);
-    }
-    
-    public double calculate(CustomActivity customActivity) {
-        if (formula == null) {
-            return 0.0;
-        }
-        return formula.calculate(customActivity);
     }
 }

@@ -6,8 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.hua.app.activityelements.Activity;
-import com.hua.app.activityelements.CustomActivity;
-import com.hua.app.utilities.calories.CalorieCalcFormula;
+import com.hua.app.utilities.calories.Formula;
 import com.hua.app.utilities.xmlparser.XmlParser;
 
 public class DataHolder {
@@ -16,8 +15,7 @@ public class DataHolder {
     private String sex;
     private Set<File> fileList;
     private ArrayList<Activity> activityList;
-    private ArrayList<CustomActivity> customActivityList;
-    private CalorieCalcFormula formula;
+    private Formula formula;
     
     public DataHolder() {
         age = 0;
@@ -25,15 +23,14 @@ public class DataHolder {
         sex = null;
         fileList = new HashSet<>();
         activityList = new ArrayList<>();
-        customActivityList = new ArrayList<>();
         formula = null;
     }
     
-    public void setFormula(CalorieCalcFormula formula) {
+    public void setFormula(Formula formula) {
         this.formula = formula;
     }
     
-    public CalorieCalcFormula getFormula() {
+    public Formula getFormula() {
         return formula;
     }
 
@@ -81,7 +78,19 @@ public class DataHolder {
         return activityList;
     }
     
-    public ArrayList<CustomActivity> getCustomActivityList() {
-        return customActivityList;
+    public void clearActivityList() {
+        activityList.clear();
+    }
+    
+    public void clearFileList() {
+        fileList.clear();
+    }
+    
+    public void clearAllData() {
+        age = 0;
+        weight = 0.0;
+        sex = null;
+        clearActivityList();
+        clearFileList();
     }
 }
