@@ -69,6 +69,7 @@ public class MenuPanel {
                         calorieWindow.setVisibility(true);
                     });
                 } else {
+                    data.populateActivityList();
                     switchToResults.run();          
                 }
             }

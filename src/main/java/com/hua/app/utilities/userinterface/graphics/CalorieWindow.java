@@ -60,7 +60,7 @@ public class CalorieWindow {
                 }
                 FormulaPicker.chooseFormula(data);
                 switchToResults.run();
-                data.clearActivityList();
+                data.populateActivityList();
             }
             popupWindow.dispose();
         });
