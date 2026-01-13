@@ -2,15 +2,15 @@ package com.hua.app.utilities.calories;
 
 import com.hua.app.utilities.userinterface.data.DataHolder;
 
-public class CalcFactory {
-    public static CalorieCalcFormula createCalculator(DataHolder data) {
+public class FormulaPicker {
+    public static void chooseFormula(DataHolder data) {
         if (data.getWeight() == 0) {
-            return null;
+            return;
         }
         if (data.getAge() == 0 || data.getSex() == null) {
-            return new SimpleCalorieCalc(data.getWeight());
+            data.setFormula(new SimpleFormula(data.getWeight()));
         } else {
-            return new ComplexCalorieCalc(data);
+            data.setFormula(new ComplexFormula(data));
         }
     }
 }

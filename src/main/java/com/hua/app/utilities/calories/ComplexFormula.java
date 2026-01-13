@@ -3,10 +3,10 @@ package com.hua.app.utilities.calories;
 import com.hua.app.activityelements.Activity;
 import com.hua.app.utilities.userinterface.data.DataHolder;
 
-public class ComplexCalorieCalc implements CalorieCalcFormula{
+public class ComplexFormula implements Formula{
     private DataHolder data;
     
-    public ComplexCalorieCalc(DataHolder data) {
+    public ComplexFormula(DataHolder data) {
         this.data = data;
     }
     
