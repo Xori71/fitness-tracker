@@ -9,6 +9,10 @@ public class CalorieCalcManager {
         this.formula = formula;
     }
     
+    public boolean formulaExists() {
+        return formula != null;
+    }
+    
     public double calculate(Activity activity) {
         if (formula == null) {
             return 0.0;

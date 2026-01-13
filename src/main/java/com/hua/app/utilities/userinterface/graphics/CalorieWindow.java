@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import com.hua.app.utilities.calories.FormulaPicker;
 import com.hua.app.utilities.userinterface.data.DataHolder;
@@ -18,13 +19,14 @@ import com.hua.app.utilities.userinterface.data.DataHolder;
 public class CalorieWindow {
     private JFrame popupWindow;
     private JPanel menuPanel;
-    private Runnable switchCommand;
+    private JPanel calorieTargetPanel;
+    private Runnable switchToResults;
     private JComboBox<String> selection;
     private DataHolder data;
     
-    public CalorieWindow(DataHolder data, Runnable switchCommand, JPanel menuPanel)  {
+    public CalorieWindow(DataHolder data, Runnable switchToResults, JPanel menuPanel)  {
         this.data = data;
-        this.switchCommand = switchCommand;
+        this.switchToResults = switchToResults;
         this.menuPanel = menuPanel;
         create();
     }
@@ -44,16 +46,23 @@ public class CalorieWindow {
         selection.addItem("Advanced");
         selection.setAlignmentX(Component.CENTER_ALIGNMENT);
         
+        calorieTargetPanel = InputFieldFactory.addField(settingPanel, "Enter a daily calorie target (Optional): ", "", "^[1-9]\\d*(\\.\\d+)?$", 15);
+        
         JButton proceedButton = new JButton("Proceed");
         proceedButton.addActionListener(l -> {
-            if (data.getWeight() == 0 && switchCommand != null) {
-                switchCommand.run();
+            if (data.getWeight() == 0 && switchToResults != null) {
+                switchToResults.run();
             } else if (isSelectionValid()) {
+                JTextField calorieTargetField = (JTextField) calorieTargetPanel.getComponent(1);
+                String calorieTargetText = calorieTargetField.getText();
+                if (!calorieTargetText.equals("")) {
+                    data.setCalorieTarget(Double.parseDouble(calorieTargetText));
+                }
                 FormulaPicker.chooseFormula(data);
-                switchCommand.run();
+                switchToResults.run();
                 data.clearActivityList();
-                popupWindow.dispose();
             }
+            popupWindow.dispose();
         });
         proceedButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -61,6 +70,8 @@ public class CalorieWindow {
         settingPanel.add(prompt);
         settingPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         settingPanel.add(selection);
+        settingPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        settingPanel.add(calorieTargetPanel);
         settingPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         settingPanel.add(proceedButton);
         
@@ -73,6 +84,13 @@ public class CalorieWindow {
             JOptionPane.showMessageDialog(null, "Advanced caloric expenditure calculation cannot be done without an age AND sex value");
             return false;
         }
+        
+        JTextField calorieTargetField = (JTextField) calorieTargetPanel.getComponent(1);
+        if (!calorieTargetField.getInputVerifier().verify(calorieTargetField)) {
+            JOptionPane.showMessageDialog(null, "Invalid calorie target");
+            return false;
+        }
+        
         return true;
     }
     

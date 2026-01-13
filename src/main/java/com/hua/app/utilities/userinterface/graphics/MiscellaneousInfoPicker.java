@@ -11,12 +11,15 @@ public class MiscellaneousInfoPicker {
     private JTextField weightField;
     
     public JPanel createInfoPicker() {
-        /* Base panel for all the info */
         JPanel infoPanel = new JPanel(true);
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.add(InputFieldFactory.addField(infoPanel, "Enter your age (Optional): ", "e.g. 18", "^\\d$", 3));
-        infoPanel.add(InputFieldFactory.addField(infoPanel, "Enter your weight (Optional): ", "e.g. 67.5", "^\\d(\\.\\d)?$", 5));
+        JPanel agePanel = InputFieldFactory.addField(infoPanel, "Enter your age (Optional): ", "", "^\\d*$", 15);
+        JPanel weightPanel = InputFieldFactory.addField(infoPanel, "Enter your weight (Optional): ", "", "^\\d*(\\.\\d+)?$", 15);
+        infoPanel.add(agePanel);
+        infoPanel.add(weightPanel);
         infoPanel.add(setupSexInput());
+        ageField = (JTextField) agePanel.getComponent(1);
+        weightField = (JTextField) weightPanel.getComponent(1);
         
         return infoPanel;
     }
@@ -35,6 +38,14 @@ public class MiscellaneousInfoPicker {
         } else {
             return (String) selector.getSelectedItem();
         }
+    }
+    
+    public JTextField getAgeField() {
+        return ageField;
+    }
+    
+    public JTextField getWeightField() {
+        return weightField;
     }
     
     private JComboBox<String> setupSexInput() {
