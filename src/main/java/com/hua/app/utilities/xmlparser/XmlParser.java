@@ -30,9 +30,10 @@ public class XmlParser {
                 /* Get activities */
                 NodeList activityList = document.getElementsByTagName("Activity");
                 for(int i = 0; i < activityList.getLength(); i++){
-                    Element activityElement = (Element) activityList.item(i);
+                    Element activityElement = (Element) activityList.item(i); 
                     String sport = activityElement.getAttribute("Sport");
-                    String id = activityElement.getAttribute("Id");
+                    NodeList idList = activityElement.getElementsByTagName("Id");
+                    String id = idList.item(0).getTextContent();
                     String date = getDateFromId(id);
                     ParsedActivity activity = new ParsedActivity(sport, date);
                     
@@ -79,7 +80,6 @@ public class XmlParser {
                 System.out.println("Cannot open TCX file/s");
             }
         }
-        
     }
     
     public String getNodeValue(NodeList n) {
