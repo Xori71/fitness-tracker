@@ -23,7 +23,7 @@ public class MenuPanel {
         
         /* Create popup window to have it ready for use */
         SwingUtilities.invokeLater(() -> {
-            calorieWindow = new CalorieWindow(data, switchCommand);
+            calorieWindow = new CalorieWindow(data, switchCommand, menuPanel);
             calorieWindow.setVisibility(false);
         });
         
@@ -36,7 +36,7 @@ public class MenuPanel {
         GridBagConstraints c = new GridBagConstraints();
         
         FilePicker filePicker = new FilePicker(menuPanel, data);
-        MiscellaneousInfoPicker infoPicker = new MiscellaneousInfoPicker(menuPanel);
+        MiscellaneousInfoPicker infoPicker = new MiscellaneousInfoPicker();
         
         c.insets = new Insets(5, 5, 5, 5);
         c.gridx = 0;
