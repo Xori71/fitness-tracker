@@ -28,7 +28,7 @@ public class CustomActivityWindow {
     }
     
     private void create() {
-        CustomActivity customActivity = new CustomActivity(data);
+        CustomActivity customActivity = new CustomActivity();
         popupWindow = new JFrame();
         popupWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         popupWindow.setLocationRelativeTo(null);
@@ -61,13 +61,14 @@ public class CustomActivityWindow {
                         if (field.getInputVerifier() != null && !field.getInputVerifier().verify(field)) {
                             JOptionPane.showMessageDialog(popupWindow, "Please ensure that all fields are valid");
                             return;
+                        } else {
+                            populateCustomActivity(customActivity, index, field);
                         }
-                        populateCustomActivity(customActivity, index, field);
                     }
                 }
                 index++;
             }
-            data.getCustomActivityList().addLast(customActivity);
+            data.getActivityList().addLast(customActivity);
         });
         
         bottomPanel.add(proceedButton);
@@ -118,16 +119,16 @@ public class CustomActivityWindow {
                 customActivity.setDuration(field.getText());
                 break;
             case 2:
-                customActivity.setDistance(field.getText());
+                customActivity.setDistance(Double.parseDouble(field.getText()));
                 break;
             case 3:
-                customActivity.setAverageSpeed(field.getText());
+                customActivity.setAverageSpeed(Double.parseDouble(field.getText()));
                 break;
             case 4:
-                customActivity.setAverageHeartRate(field.getText());
+                customActivity.setAverageHeartRate(Double.parseDouble(field.getText()));
                 break;
             case 5:
-                customActivity.setMaxHeartRate(field.getText());
+                customActivity.setMaxHeartRate(Integer.parseInt(field.getText()));
                 break;
         }
     }

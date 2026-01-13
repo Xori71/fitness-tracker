@@ -2,6 +2,7 @@ package com.hua.app.utilities.xmlparser;
 
 import com.hua.app.activityelements.Activity;
 import com.hua.app.activityelements.Lap;
+import com.hua.app.activityelements.ParsedActivity;
 import com.hua.app.activityelements.Track;
 import com.hua.app.activityelements.Trackpoint;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,7 +32,9 @@ public class XmlParser {
                 for(int i = 0; i < activityList.getLength(); i++){
                     Element activityElement = (Element) activityList.item(i);
                     String sport = activityElement.getAttribute("Sport");
-                    Activity activity = new Activity(sport);
+                    String id = activityElement.getAttribute("Id");
+                    String date = getDateFromId(id);
+                    ParsedActivity activity = new ParsedActivity(sport, date);
                     
                     /* Get laps */
                     NodeList laps = activityElement.getElementsByTagName("Lap");
@@ -99,5 +102,10 @@ public class XmlParser {
         } catch (Exception ex) {
             return (int) DEFAULT_VALUE;
         }
+    }
+    
+    private String getDateFromId(String Id) {
+        String[] tokens = Id.split("T");
+        return tokens[0];
     }
 }

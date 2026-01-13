@@ -1,50 +1,58 @@
 package com.hua.app.activityelements;
 
 import com.hua.app.utilities.calories.CalorieCalcManager;
-import com.hua.app.utilities.userinterface.data.DataHolder;
 
-public class CustomActivity {
+public class CustomActivity implements Activity {
     private String type;
+    private String date;
     private String duration;
-    private String distance;
-    private String averageSpeed;
-    private String averageHeartRate;
-    private String maxHeartRate;
-    private Double caloriesBurned;
+    private int durationInSeconds;
+    private double distance;
+    private double averageSpeed;
+    private double averageHeartRate;
+    private int maxHeartRate;
+    private double calories;
     private CalorieCalcManager manager;
     
-    public CustomActivity(DataHolder data) {
-        type = "";
-        duration = "00:00:00";
-        distance = "0";
-        averageSpeed = "0";
-        averageHeartRate = "0";
-        maxHeartRate = "0";
-        caloriesBurned = 0.0;
+    public CustomActivity() {
+        type = null;
+        duration = null;
+        durationInSeconds = 0;
+        distance = 0.0;
+        averageSpeed = 0.0;
+        averageHeartRate = 0.0;
+        maxHeartRate = 0;
+        calories = 0.0;
         manager = null;
     }
     
     public void setType(String type) {
 		this.type = type;
 	}
+	
+	public void setDate(String date) {
+	    this.date = date;
+	}
 
 	public void setDuration(String duration) {
 		this.duration = duration;
 	}
+	
+	
 
-	public void setDistance(String distance) {
+	public void setDistance(double distance) {
 		this.distance = distance;
 	}
 
-	public void setAverageSpeed(String averageSpeed) {
+	public void setAverageSpeed(double averageSpeed) {
 		this.averageSpeed = averageSpeed;
 	}
 
-	public void setAverageHeartRate(String averageHeartRate) {
+	public void setAverageHeartRate(double averageHeartRate) {
 		this.averageHeartRate = averageHeartRate;
 	}
 
-	public void setMaxHeartRate(String maxHeartRate) {
+	public void setMaxHeartRate(int maxHeartRate) {
 		this.maxHeartRate = maxHeartRate;
 	}
 	
@@ -55,42 +63,54 @@ public class CustomActivity {
 	public String getType() {
 		return type;
 	}
+	
+	public String getDate() {
+	    return date;
+	}
 
 	public String getDuration() {
 		return duration;
 	}
 	
 	public int getDurationInSeconds() {
-	    String tokens[] = duration.split(":");
-		int seconds = 0;
-		seconds += Integer.parseInt(tokens[0]) * 3600;
-		seconds += Integer.parseInt(tokens[1]) * 60;
-		seconds += Integer.parseInt(tokens[2]);
-		return seconds;
+	    return durationInSeconds;
 	}
 
-	public String getDistance() {
+	public double getDistance() {
 		return distance;
 	}
 
-	public String getAverageSpeed() {
+	public double getAverageSpeed() {
 		return averageSpeed;
 	}
 
-	public String getAverageHeartRate() {
+	public double getAverageHeartRate() {
 		return averageHeartRate;
 	}
 
-	public String getMaxHeartRate() {
+	public int getMaxHeartRate() {
 		return maxHeartRate;
 	}
 	
-	private double calculateCaloriesBurned() {
-	    return manager.calculate(this);
+	public double getCalories() {
+		return calories;
 	}
-
-	public double getCaloriesBurned() {
-	    caloriesBurned = calculateCaloriesBurned();
-		return caloriesBurned;
+	
+	public void calculateData() {
+        durationInSeconds = calculateDurationInSeconds();
+	    calories = calculateCalories();
+	}
+	
+	private int calculateDurationInSeconds() {
+        String tokens[] = duration.split(":");
+        int seconds = 0;
+        seconds += Integer.parseInt(tokens[0]) * 3600;
+        seconds += Integer.parseInt(tokens[1]) * 60;
+        seconds += Integer.parseInt(tokens[2]);
+        return seconds;
+	}
+	
+	private double calculateCalories() {
+	    return manager.calculate(this);
 	}
 }

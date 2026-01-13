@@ -14,8 +14,8 @@ public class App {
         for (Activity activity : data.getActivityList()) {
             /* activityArray may be partially or entirely filled with null values */
             if (activity != null) {
-                System.out.println("* Activity: " + activity.getActivityType());
-                System.out.println("* Total Time: " + activity.getFormattedDuration());
+                System.out.println("* Activity: " + activity.getType());
+                System.out.println("* Total Time: " + activity.getDuration());
                 System.out.printf("* Total Distance: %.2fm\n", activity.getDistance());
                 System.out.printf("* Avg Speed: %.2f km/h\n", activity.getAverageSpeed());
                 System.out.println("* Avg Heart Rate: " + activity.getAverageHeartRate());
