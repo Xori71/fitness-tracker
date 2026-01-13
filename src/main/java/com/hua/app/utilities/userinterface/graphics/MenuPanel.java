@@ -23,7 +23,7 @@ public class MenuPanel {
         
         /* Create popup window to have it ready for use */
         SwingUtilities.invokeLater(() -> {
-            calorieWindow = new CalorieWindow(data, switchCommand);
+            calorieWindow = new CalorieWindow(data, switchCommand, menuPanel);
             calorieWindow.setVisibility(false);
         });
         

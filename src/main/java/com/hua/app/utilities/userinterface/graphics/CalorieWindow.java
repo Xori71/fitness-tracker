@@ -17,13 +17,15 @@ import com.hua.app.utilities.userinterface.data.DataHolder;
 
 public class CalorieWindow {
     private JFrame popupWindow;
+    private JPanel menuPanel;
     private Runnable switchCommand;
     private JComboBox<String> selection;
     private DataHolder data;
     
-    public CalorieWindow(DataHolder data, Runnable switchCommand)  {
+    public CalorieWindow(DataHolder data, Runnable switchCommand, JPanel menuPanel)  {
         this.data = data;
         this.switchCommand = switchCommand;
+        this.menuPanel = menuPanel;
         create();
     }
     
@@ -31,7 +33,7 @@ public class CalorieWindow {
         popupWindow = new JFrame();
         popupWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //popupWindow.setMinimumSize(new Dimension(685, 285));
-        popupWindow.setLocationRelativeTo(null);
+        popupWindow.setLocationRelativeTo(menuPanel);
         
         JPanel settingPanel = new JPanel();
         settingPanel.setLayout(new BoxLayout(settingPanel, BoxLayout.Y_AXIS));
@@ -44,7 +46,9 @@ public class CalorieWindow {
         
         JButton proceedButton = new JButton("Proceed");
         proceedButton.addActionListener(l -> {
-            if (isSelectionValid() && switchCommand != null) {
+            if (data.getWeight() == 0 && switchCommand != null) {
+                switchCommand.run();
+            } else if (isSelectionValid()) {
                 FormulaPicker.chooseFormula(data);
                 switchCommand.run();
                 popupWindow.dispose();
@@ -64,15 +68,10 @@ public class CalorieWindow {
     }
     
     public boolean isSelectionValid() {
-        if (data.getWeight() == 0.0) {
-            JOptionPane.showMessageDialog(null, "Caloric expenditure will not be calculated because weight is 0");
-        } else {
-            if ((data.getAge() == 0 || data.getSex() == "-") && selection.getSelectedItem().equals("Advanced")) {
-                JOptionPane.showMessageDialog(null, "Advanced caloric expenditure calculation cannot be done without an age AND sex value");
-                return false;
-            }
+        if ((data.getAge() == 0 || data.getSex() == "-") && selection.getSelectedItem().equals("Advanced")) {
+            JOptionPane.showMessageDialog(null, "Advanced caloric expenditure calculation cannot be done without an age AND sex value");
+            return false;
         }
-        
         return true;
     }
     
