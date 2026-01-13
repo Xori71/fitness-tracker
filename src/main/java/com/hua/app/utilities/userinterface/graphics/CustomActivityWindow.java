@@ -1,16 +1,11 @@
 package com.hua.app.utilities.userinterface.graphics;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.Font;
 
 import javax.swing.BoxLayout;
-import javax.swing.InputVerifier;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -40,12 +35,13 @@ public class CustomActivityWindow {
         
         JPanel topPanel = new JPanel(true);
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-        topPanel.add(addField(topPanel, "Activity type: ", createInputVerifier(".*\\S.*")));
-        topPanel.add(addField(topPanel, "Duration: ", createInputVerifier("^\\d+:[0-5]\\d:[0-5]\\d$")));
-        topPanel.add(addField(topPanel, "Total distance: ", createInputVerifier("^\\d+(\\.\\d+)?$")));
-        topPanel.add(addField(topPanel, "Average speed: ", createInputVerifier("^\\d+(\\.\\d+)?$")));
-        topPanel.add(addField(topPanel, "Average heart rate: ", createInputVerifier("^\\d+(\\.\\d+)?$")));
-        topPanel.add(addField(topPanel, "Max heart rate: ", createInputVerifier("^\\d+$")));
+        topPanel.add(InputFieldFactory.addField(topPanel, "Activity type: ", "e.g. Hiking", ".*\\S.*", 20));
+        topPanel.add(InputFieldFactory.addField(topPanel, "Date: ", "e.g. 2024-12-31", "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$", 20));
+        topPanel.add(InputFieldFactory.addField(topPanel, "Duration: ", "e.g. 03:45:11", "^\\d+:[0-5]\\d:[0-5]\\d$", 20));
+        topPanel.add(InputFieldFactory.addField(topPanel, "Total distance: ", "e.g. 4567.89", "^\\d+(\\.\\d+)?$", 20));
+        topPanel.add(InputFieldFactory.addField(topPanel, "Average speed: ", "e.g. 12.56", "^\\d+(\\.\\d+)?$", 20));
+        topPanel.add(InputFieldFactory.addField(topPanel, "Average heart rate: ", "e.g. 97", "^\\d+(\\.\\d+)?$", 20));
+        topPanel.add(InputFieldFactory.addField(topPanel, "Max heart rate: ", "e.g. 123", "^\\d+$", 20));
         basePanel.add(topPanel);
         
         JPanel bottomPanel = new JPanel(true);
@@ -69,6 +65,7 @@ public class CustomActivityWindow {
                 index++;
             }
             data.getActivityList().addLast(customActivity);
+            popupWindow.dispose();
         });
         
         bottomPanel.add(proceedButton);
@@ -77,57 +74,24 @@ public class CustomActivityWindow {
         popupWindow.setVisible(true);
     }
     
-    private JPanel addField(JPanel targetPanel, String labelText, InputVerifier inputVerifier) {
-        JPanel subpanel = new JPanel(true);
-        subpanel.setLayout(new FlowLayout());
-        
-        JTextField field = new JTextField(20);
-        field.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-        field.setInputVerifier(inputVerifier);
-        subpanel.add(new JLabel(labelText));
-        subpanel.add(field);
-        return subpanel;
-    }
-    
-    private InputVerifier createInputVerifier(String regex) {
-        return new InputVerifier() {
-            @Override
-            public boolean verify(JComponent input) {
-                String text = ((JTextField) input).getText();
-                return text.matches(regex);
-            }
-            
-            @Override
-            public boolean shouldYieldFocus(JComponent source, JComponent target) {
-                if (!verify(source)) {
-                    source.setBackground(Color.RED);
-                } else {
-                    source.setBackground(Color.WHITE);
-                }
-                
-                return true;
-            }
-        };
-    }
-    
     private void populateCustomActivity(CustomActivity customActivity, int index, JTextField field) {
         switch (index) {
             case 0:
                 customActivity.setType(field.getText());
                 break;
-            case 1:
+            case 2:
                 customActivity.setDuration(field.getText());
                 break;
-            case 2:
+            case 3:
                 customActivity.setDistance(Double.parseDouble(field.getText()));
                 break;
-            case 3:
+            case 4:
                 customActivity.setAverageSpeed(Double.parseDouble(field.getText()));
                 break;
-            case 4:
+            case 5:
                 customActivity.setAverageHeartRate(Double.parseDouble(field.getText()));
                 break;
-            case 5:
+            case 6:
                 customActivity.setMaxHeartRate(Integer.parseInt(field.getText()));
                 break;
         }
