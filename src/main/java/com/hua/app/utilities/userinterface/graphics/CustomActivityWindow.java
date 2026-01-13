@@ -69,6 +69,7 @@ public class CustomActivityWindow {
                 index++;
             }
             data.getActivityList().addLast(customActivity);
+            popupWindow.dispose();
         });
         
         bottomPanel.add(proceedButton);

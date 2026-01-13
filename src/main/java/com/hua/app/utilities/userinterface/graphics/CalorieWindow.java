@@ -47,6 +47,7 @@ public class CalorieWindow {
             if (isSelectionValid() && switchCommand != null) {
                 FormulaPicker.chooseFormula(data);
                 switchCommand.run();
+                data.clearActivityList();
                 popupWindow.dispose();
             }
         });
