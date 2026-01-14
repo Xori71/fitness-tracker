@@ -75,22 +75,20 @@ public class ResultsPanel {
                 activity.setManager(manager);
                 activity.calculateData();
                 
-                if (data.getCalorieTarget() != -1 && activity.getCalories() != 0.0) {
-                    data.recordDateAndCalories(activity.getDate(), activity.getCalories());
-                    // sb.append("* Calories Expended: %.2f kcal\n" + value);
-                }
-                
                 String formattedEntry = String.format(
-                "* Activity: %s\n* Total Time: %s\n* Total Distance: %.2fm\n* Avg Speed: %.2f km/h\n* Avg Heart Rate: %s\n* Max Heart Rate: %s\n* Calories Burned: %.2f" +
-                                "\n", 
+                "* Activity: %s\n* Total Time: %s\n* Total Distance: %.2fm\n* Avg Speed: %.2f km/h\n* Avg Heart Rate: %s\n* Max Heart Rate: %s\n", 
                 activity.getType(),            
                 activity.getDuration(), 
                 activity.getDistance(), 
                 activity.getAverageSpeed(),
                 activity.getAverageHeartRate(),
-                activity.getMaxHeartRate(),
-                activity.getCalories()
+                activity.getMaxHeartRate()
                 );
+                
+                if (data.getCalorieTarget() != -1) {
+                    data.recordDateAndCalories(activity.getDate(), activity.getCalories());
+                    sb.append("* Calories Expended: %.2f kcal\n" + activity.getCalories());
+                }
                 
                 sb.append(formattedEntry);
                 sb.append("--------------------------\n");
@@ -98,7 +96,6 @@ public class ResultsPanel {
         }
         textArea.setText(sb.toString());
         textArea.setCaretPosition(0);
-        
     }
 
     public JPanel getPanel() {
