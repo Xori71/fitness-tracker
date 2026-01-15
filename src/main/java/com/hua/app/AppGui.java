@@ -1,7 +1,8 @@
 package com.hua.app;
 
 import javax.swing.SwingUtilities;
-import com.hua.app.utilities.userinterface.graphics.MainWindow;
+
+import com.hua.app.userinterface.MainWindow;
 
 public class AppGui { 
     public static void main(String args[]) {

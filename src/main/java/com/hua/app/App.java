@@ -1,9 +1,10 @@
 package com.hua.app;
 
-import com.hua.app.activityelements.Activity;
-import com.hua.app.utilities.calories.FormulaPicker;
-import com.hua.app.utilities.calories.CalorieCalcManager;
-import com.hua.app.utilities.userinterface.data.DataHolder;
+import com.hua.app.basicelements.Activity;
+import com.hua.app.data.DataHolder;
+import com.hua.app.data.calories.CalorieCalcManager;
+import com.hua.app.data.calories.FormulaPicker;
+
 import java.io.File;
 
 public class App {
