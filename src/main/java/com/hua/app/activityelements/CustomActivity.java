@@ -38,8 +38,6 @@ public class CustomActivity implements Activity {
 		this.duration = duration;
 	}
 	
-	
-
 	public void setDistance(double distance) {
 		this.distance = distance;
 	}

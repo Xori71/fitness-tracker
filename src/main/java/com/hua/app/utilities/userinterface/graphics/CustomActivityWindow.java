@@ -18,26 +18,59 @@ import com.hua.app.utilities.userinterface.data.DataHolder;
  */
 
 public class CustomActivityWindow {
-    JFrame popupWindow;
-    DataHolder data;
+    private JFrame popupWindow;
+    private JPanel basePanel;
+    private JPanel parentPanel;
+    private JPanel topPanel;
+    private JPanel bottomPanel;
+    private DataHolder data;
     
-    public CustomActivityWindow(DataHolder data) {
+    public CustomActivityWindow(DataHolder data, JPanel parentPanel) {
         this.data = data;
-        create();
+        this.parentPanel = parentPanel;
+        createWindow();
     }
     
-    private void create() {
-        CustomActivity customActivity = new CustomActivity();
+    public void displayWindow() {
+        popupWindow.setVisible(true);
+    }
+    
+    public void hideWindow() {
+        popupWindow.setVisible(false);
+    }
+    
+    public void refreshWindow() {
+        for (Component subpanel : topPanel.getComponents()) {
+            for (Component component : ((JPanel) subpanel).getComponents()) {
+                if (component instanceof JTextField) {
+                    ((JTextField) component).setText("");
+                }
+            }
+        }
+    }
+    
+    private void createWindow() {
         popupWindow = new JFrame();
-        popupWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        popupWindow.setLocationRelativeTo(null);
+        popupWindow.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        createPanel();
+        popupWindow.pack();
+        popupWindow.setLocationRelativeTo(parentPanel);
+    }
+    
+    private void createPanel() {
+        CustomActivity customActivity = new CustomActivity();
         
-        JPanel basePanel = new JPanel(true);
+        basePanel = new JPanel(true);
         basePanel.setLayout(new BoxLayout(basePanel, BoxLayout.Y_AXIS));
         basePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         popupWindow.add(basePanel);
         
-        JPanel topPanel = new JPanel(true);
+        createFields();
+        createButton(customActivity);
+    }
+    
+    private void createFields() {
+        topPanel = new JPanel(true);
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.add(InputFieldFactory.addField(topPanel, "Activity type: ", "e.g. Hiking", ".*\\S.*", 20));
         topPanel.add(InputFieldFactory.addField(topPanel, "Date: ", "e.g. 2024-12-31", "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$", 20));
@@ -47,8 +80,10 @@ public class CustomActivityWindow {
         topPanel.add(InputFieldFactory.addField(topPanel, "Average heart rate: ", "e.g. 97", "^\\d+(\\.\\d+)?$", 20));
         topPanel.add(InputFieldFactory.addField(topPanel, "Max heart rate: ", "e.g. 123", "^\\d+$", 20));
         basePanel.add(topPanel);
-        
-        JPanel bottomPanel = new JPanel(true);
+    }
+    
+    private void createButton(CustomActivity customActivity) {
+        bottomPanel = new JPanel(true);
         bottomPanel.setLayout(new FlowLayout());
         JButton proceedButton = new JButton("Proceed");
         proceedButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -74,8 +109,6 @@ public class CustomActivityWindow {
         
         bottomPanel.add(proceedButton);
         basePanel.add(bottomPanel);
-        popupWindow.pack();
-        popupWindow.setVisible(true);
     }
     
     private void populateCustomActivity(CustomActivity customActivity, int index, JTextField field) {

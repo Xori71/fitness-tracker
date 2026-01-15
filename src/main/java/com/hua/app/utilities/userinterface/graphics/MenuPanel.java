@@ -18,15 +18,24 @@ import com.hua.app.utilities.userinterface.data.DataHolder;
 
 public class MenuPanel {
     private JPanel menuPanel;
+    private FilePicker filePicker;
     private MiscellaneousInfoPicker infoPicker;
 	private Runnable switchToResults;
     private CalorieWindow calorieWindow;
+    private CustomActivityWindow customActivityWindow;
     private DataHolder data;
     
     public MenuPanel(DataHolder data, Runnable switchToResults) {
         this.data = data;
         this.switchToResults = switchToResults;
-        create();
+        SwingUtilities.invokeLater(() -> {
+            customActivityWindow = new CustomActivityWindow(data, menuPanel);
+            customActivityWindow.hideWindow();
+        });
+        SwingUtilities.invokeLater(() -> {
+            calorieWindow = new CalorieWindow(data, switchToResults, menuPanel);
+            calorieWindow.hideWindow();
+        });
     }
     
     public void create() {
@@ -34,7 +43,7 @@ public class MenuPanel {
         menuPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         
-        FilePicker filePicker = new FilePicker(menuPanel, data);
+        filePicker = new FilePicker(data, menuPanel);
         infoPicker = new MiscellaneousInfoPicker();
         
         c.insets = new Insets(5, 5, 5, 5);
@@ -47,10 +56,8 @@ public class MenuPanel {
         
         JButton customActivityButton = new JButton("Add custom activity");
         customActivityButton.addActionListener(l -> {
-            SwingUtilities.invokeLater(() -> {
-               @SuppressWarnings("unused")
-			   CustomActivityWindow customActivityWindow = new CustomActivityWindow(data); 
-            });
+            customActivityWindow.refreshWindow();
+            customActivityWindow.displayWindow();
         });
         
         c.gridx = 0;
@@ -68,12 +75,9 @@ public class MenuPanel {
                 data.setSex(infoPicker.getSexInput());
                 
                 if (data.getWeight() != 0) {
-                    SwingUtilities.invokeLater(() -> {
-                        calorieWindow = new CalorieWindow(data, switchToResults, menuPanel);
-                        calorieWindow.setVisibility(true);
-                    });
+                    calorieWindow.refreshWindow();
+                    calorieWindow.displayWindow();
                 } else {
-                    data.populateActivityList();
                     switchToResults.run();          
                 }
             }
@@ -92,15 +96,24 @@ public class MenuPanel {
         JTextField weightField = infoPicker.getWeightField();
         
         if (ageField.getInputVerifier() != null && !ageField.getInputVerifier().verify(ageField)) {
-            JOptionPane.showMessageDialog(null, "Invalid age value");
+            JOptionPane.showMessageDialog(menuPanel, "Invalid age value");
             return false;
         }
         if (weightField.getInputVerifier() != null && !weightField.getInputVerifier().verify(weightField)) {
-            JOptionPane.showMessageDialog(null, "Invalid weight value");
+            JOptionPane.showMessageDialog(menuPanel, "Invalid weight value");
+            return false;
+        }
+        if (data.getFileList().isEmpty()) {
+            JOptionPane.showMessageDialog(menuPanel, "No files selected");
             return false;
         }
         
         return true;
+    }
+    
+    public void refresh() {
+        filePicker.refreshFilePicker();
+        infoPicker.refreshInfoPicker();
     }
     
     public JPanel getPanel() {

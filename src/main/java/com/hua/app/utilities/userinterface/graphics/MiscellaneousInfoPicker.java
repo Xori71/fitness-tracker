@@ -32,7 +32,6 @@ public class MiscellaneousInfoPicker {
         if (!ageField.getText().equals("")) {
             return Integer.parseInt(ageField.getText());
         }
-        
         return 0;
     }
     
@@ -40,8 +39,7 @@ public class MiscellaneousInfoPicker {
         if (!ageField.getText().equals("")) {
             return Double.parseDouble(weightField.getText());
         }
-        
-        return 0;
+        return 0.0;
     }
     
     public String getSexInput() {
@@ -58,6 +56,12 @@ public class MiscellaneousInfoPicker {
     
     public JTextField getWeightField() {
         return weightField;
+    }
+    
+    public void refreshInfoPicker() {
+        ageField.setText("");
+        weightField.setText("");
+        selector.setSelectedIndex(0);
     }
     
     private JComboBox<String> setupSexInput() {
