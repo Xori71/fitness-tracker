@@ -34,10 +34,6 @@ public class ResultsPanel {
         this.data = data;
         this.switchToMenu = switchToMenu;
         resultsTextArea = new JTextArea();
-        if (data.getFormula() != null) {
-            manager = new CalorieCalcManager();
-            manager.setFormula(data.getFormula());
-        }
         totalDuration = 0;
         totalDistance = 0.0;
         totalCalories = 0.0;
@@ -55,7 +51,7 @@ public class ResultsPanel {
         resultsTextArea.setWrapStyleWord(true);
 
         JScrollPane sp = new JScrollPane(resultsTextArea);
-        sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         
         JPanel buttonArray = new JPanel(true);
         buttonArray.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -92,6 +88,11 @@ public class ResultsPanel {
     }
 
     public void updateDisplay() {
+        if (data.getFormula() != null) {
+            manager = new CalorieCalcManager();
+            manager.setFormula(data.getFormula());
+        }
+        
         for (Activity activity : data.getActivityList()) {
             activity.setManager(manager);
             activity.calculateData();
@@ -100,23 +101,23 @@ public class ResultsPanel {
             totalDistance += activity.getDistance();
             totalCalories += activity.getCalories();
             
-            resultsTextArea.append(String.format("* Activity: %s\n" + activity.getType()));
-            resultsTextArea.append(String.format("* Date: %s\n" + activity.getDate()));
-            resultsTextArea.append(String.format("* Duration: %.2f\n" + activity.getDuration()));
-            resultsTextArea.append(String.format("* Distance: %.2fm\n" + activity.getDistance()));
-            resultsTextArea.append(String.format("* Average Speed: %.2f km/h\n" + activity.getAverageSpeed()));
-            resultsTextArea.append(String.format("* Average Heart Rate: %.2f\n" + activity.getAverageHeartRate()));
-            resultsTextArea.append(String.format("* Max Heart Rate: %d\n" + activity.getMaxHeartRate()));
+            resultsTextArea.append(String.format("* Activity: %s\n",activity.getType()));
+            resultsTextArea.append(String.format("* Date: %s\n",activity.getDate()));
+            resultsTextArea.append(String.format("* Duration: %s\n", activity.getDuration()));
+            resultsTextArea.append(String.format("* Distance: %.2fm\n", activity.getDistance()));
+            resultsTextArea.append(String.format("* Average Speed: %.2f km/h\n", activity.getAverageSpeed()));
+            resultsTextArea.append(String.format("* Average Heart Rate: %.2f\n", activity.getAverageHeartRate()));
+            resultsTextArea.append(String.format("* Max Heart Rate: %d\n", activity.getMaxHeartRate()));
             
             if (activity.getCalories() != 0) {
-                resultsTextArea.append(String.format("* Calories Expended: %.2f kcal\n" + activity.getCalories()));
+                resultsTextArea.append(String.format("* Calories Expended: %.2f kcal\n", activity.getCalories()));
                 
                 if (data.getCalorieTarget() != -1 && activity.getDate() != null) {
                     data.recordDateAndCalories(activity.getDate(), activity.getCalories());
                 }
             }
             
-            resultsTextArea.append("--------------------------\n");
+            resultsTextArea.append("------------------------------------\n");
         }
     }
 
@@ -130,16 +131,19 @@ public class ResultsPanel {
         
         if (totalDuration != 0) {
             int totalSeconds = totalDuration;
-            String hours = String.valueOf(totalSeconds / 3600);
-            String minutes = String.valueOf(totalSeconds % 3600 / 60);
-            String seconds = String.valueOf(totalSeconds % 60);
-            basePanel.add(new JLabel("Total duration: " + hours + ":" + minutes + ":" + seconds));
+            int hours = totalSeconds / 3600;
+            int minutes = totalSeconds % 3600 / 60;
+            int seconds = totalSeconds % 60;
+            String hoursStr = (hours < 10) ? String.format("%01d", hours) : String.format("%d", hours);
+            String minutesStr = (minutes < 10) ? String.format("%01d", minutes) : String.format("%d", minutes);
+            String secondsStr = (seconds < 10) ? String.format("%01d", seconds) : String.format("%d", seconds);
+            basePanel.add(new JLabel("Total duration: " + hoursStr + ":" + minutesStr + ":" + secondsStr));
         }
         if (totalDistance != 0) {
-            basePanel.add(new JLabel("Total distance: " + String.valueOf(totalDistance)));
+            basePanel.add(new JLabel(String.format("Total distance: %.2fm", totalDistance)));
         }
         if (totalCalories != 0) {
-            basePanel.add(new JLabel("Total calories: " + String.valueOf(totalCalories)));
+            basePanel.add(new JLabel(String.format("Total calories: %.2f kcal", totalCalories)));
         }
         
         return basePanel;
