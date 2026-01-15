@@ -22,7 +22,6 @@ public class DataHolder {
     private double weight;
     private String sex;
     private Set<File> fileList;
-    private Set<File> fileListHistory;
     private ArrayList<Activity> activityList;
     private Formula formula;
     private double calorieTarget;
@@ -33,7 +32,6 @@ public class DataHolder {
         weight = 0;
         sex = null;
         fileList = new HashSet<>();
-        fileListHistory = new HashSet<>();
         activityList = new ArrayList<>();
         dailyBurnedCalories = new HashMap<>();
         formula = null;
@@ -97,28 +95,19 @@ public class DataHolder {
         dailyBurnedCalories.merge(date, calories, Double::sum);
     }
     
+    public Map<String, Double> getDailyBurnedCalories() {
+        return dailyBurnedCalories;
+    }
+    
     public ArrayList<Activity> getActivityList() {
         return activityList;
     }
-    
-    public void clearActivityList() {
-        activityList.clear();
-    }
-    
-    public void clearFileList() {
-        fileList.clear();
-    }
-    
+
     public void clearAllData() {
         age = 0;
         weight = 0.0;
         sex = null;
-        clearActivityList();
-        clearFileList();
-        clearFileListHistory();
-    }
-    
-    private void clearFileListHistory() {
-        fileListHistory.clear();
+        activityList.clear();
+        fileList.clear();
     }
 }

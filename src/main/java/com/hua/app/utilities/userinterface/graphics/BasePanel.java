@@ -21,8 +21,6 @@ public class BasePanel {
      * reaches the class that calls for the switching.
      */
      
-    Runnable switchToMenu;
-    Runnable switchToResults;
     MenuPanel menuPanel;
     ResultsPanel resultsPanel;
     private DataHolder data;
@@ -30,11 +28,6 @@ public class BasePanel {
     public BasePanel() {
         data = new DataHolder();
         c = new CardLayout();
-        switchToMenu = () -> c.show(basePanel, "MENU");
-        switchToResults = () -> {
-            resultsPanel.updateDisplay();   
-            c.show(basePanel, "RESULTS");
-        };
         create();
     }
     
@@ -42,13 +35,29 @@ public class BasePanel {
         basePanel = new JPanel(true);
         basePanel.setLayout(c);
         
-        menuPanel = new MenuPanel(data, switchToResults);
+        menuPanel = new MenuPanel(data, this::switchToResults);
+        menuPanel.create();
+        resultsPanel = new ResultsPanel(data, this::switchToMenu);
+        resultsPanel.create();
+        
+        
         basePanel.add(menuPanel.getPanel(), "MENU");
-        resultsPanel = new ResultsPanel(data, switchToMenu);
         basePanel.add(resultsPanel.getPanel(), "RESULTS");
-        switchToMenu.run();
+        
+        switchToMenu();
     }
     
+    private void switchToMenu() {
+        menuPanel.refresh();
+        data.clearAllData();
+        c.show(basePanel, "MENU");
+    }
+    
+    private void switchToResults() {
+        data.populateActivityList();
+        resultsPanel.updateDisplay();   
+        c.show(basePanel, "RESULTS");
+    }
     public JPanel getPanel() {
         return basePanel;
     }

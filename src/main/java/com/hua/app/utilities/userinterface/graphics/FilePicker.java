@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.io.File;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,50 +17,47 @@ import javax.swing.ScrollPaneConstants;
 import com.hua.app.utilities.userinterface.data.DataHolder;
 
 public class FilePicker {
+    private JPanel parentPanel;
     private DataHolder data;
-    private JPanel canvas;
+    private JPanel baseFilePickerPanel;
+    private JScrollPane scrollableFilePicker;
     
-    public FilePicker(JPanel canvas, DataHolder data) {
-        this.canvas = canvas;
+    public FilePicker(DataHolder data, JPanel parentPanel) {
+        this.parentPanel = parentPanel;
         this.data = data;
     }
     
     public JScrollPane createFilePicker() {
-        JPanel filePickerPanel = new JPanel(true);
-        filePickerPanel.setLayout(new BoxLayout(filePickerPanel, BoxLayout.Y_AXIS));
-        setupFilePicker(filePickerPanel);
-                
-        /* Make button column scrollable if it exceeds maximum height */
-        JScrollPane scrollPanel = new JScrollPane(filePickerPanel);
-        scrollPanel.getViewport().setBackground(Color.GRAY);
-        scrollPanel.setPreferredSize(new Dimension(350, 150));
-        scrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        /* Remove ugly line border */
-        //scrollPanel.setBorder(BorderFactory.createEmptyBorder());
-        
-        return scrollPanel;
+        createFilePickerPanel();
+        makeScrollableFilePicker();
+        createFileButton();
+        return scrollableFilePicker;
     }
     
-    private void setupFilePicker(JPanel filePickerPanel) {
+    public void refreshFilePicker() {
+        baseFilePickerPanel.removeAll();
+        createFileButton();
+        baseFilePickerPanel.revalidate();
+		baseFilePickerPanel.repaint();
+    }
+    
+    private void createFilePickerPanel() {
+        baseFilePickerPanel = new JPanel(true);
+        baseFilePickerPanel.setLayout(new BoxLayout(baseFilePickerPanel, BoxLayout.Y_AXIS));
+    }
+    
+    /* Make button column scrollable if it exceeds maximum height */
+    private void makeScrollableFilePicker() {
+        scrollableFilePicker = new JScrollPane(baseFilePickerPanel);
+        scrollableFilePicker.getViewport().setBackground(Color.GRAY);
+        scrollableFilePicker.setPreferredSize(new Dimension(350, 150));
+        scrollableFilePicker.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+    }
+    
+    private void createFileButton() {
         JButton button = new JButton("Choose a file");
         button.setFocusPainted(false);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        /**
-         * This variable is for checking whether a file-picking button has already been clicked at least
-         * once. Since I allow selection editing, the recursive nature of the button creation means that,
-         * without this state holder, each edit will create a new "Choose a file" button, even if another
-         * already exists.
-         * 
-         * [Choose a file] -> [Chosen file] (Edit the selection) -> [New chosen file]
-         *                    [Chose a file]                        [Choose a file]
-         *                                                          [Choose a file]
-         * 
-         * AtomicBoolean might seem like overkill for this job, but since lambda expressions cannot modify variables
-         * that are not 'final' (and I want a state holder in *each* button), the usage of a 'type' that creates a
-         * new object with each iteration is convenient.
-         */
-        AtomicBoolean hasBeenClicked = new AtomicBoolean(false);
         
         button.addActionListener(l -> {
             /* The button being clicked */
@@ -70,14 +66,17 @@ public class FilePicker {
             File previousSelection = (File) source.getClientProperty("SelectedFile");
             
             JFileChooser filePicker = new JFileChooser();
-            if (filePicker.showOpenDialog(canvas) == JFileChooser.APPROVE_OPTION) {
+            if (filePicker.showOpenDialog(parentPanel) == JFileChooser.APPROVE_OPTION) {
                 File selection = filePicker.getSelectedFile();
                 String filename = selection.getName();
                 int dotIndex = filename.lastIndexOf('.');
                 String extension = (dotIndex > 0) ? filename.substring(dotIndex + 1) : "";
                 if (extension.equals("tcx")) {
                     if (!data.getFileList().contains(selection)) {
-                        if (hasBeenClicked.get() == true && previousSelection != null) {
+                        /* Check if button has been clicked before */
+                        if (previousSelection == null) {
+                             addNewFileButton();
+                        } else {
                             /* Remove old file after editing selection */
                             data.getFileList().remove(previousSelection);
                         }
@@ -85,10 +84,6 @@ public class FilePicker {
                         /* Save new selection into button */
                         source.putClientProperty("SelectedFile", selection);
                         button.setText(filename);
-                        if (hasBeenClicked.get() == false) {
-                            addNewFileButton(filePickerPanel);
-                            hasBeenClicked.set(true);
-                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "You have already selected this file");
                     }
@@ -98,15 +93,14 @@ public class FilePicker {
             }
         });
         
-        /* Add space between buttons */
-        filePickerPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        filePickerPanel.add(button);
+        baseFilePickerPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        baseFilePickerPanel.add(button);
     }
 
-	private void addNewFileButton(JPanel filePickerPanel) {
-	    setupFilePicker(filePickerPanel);
+	private void addNewFileButton() {
+	    createFileButton();
 		/* For dynamic updating */
-		filePickerPanel.revalidate();
-		filePickerPanel.repaint();
+		baseFilePickerPanel.revalidate();
+		baseFilePickerPanel.repaint();
 	}
 }

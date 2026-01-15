@@ -33,15 +33,34 @@ public class CalorieWindow {
         this.data = data;
         this.switchToResults = switchToResults;
         this.menuPanel = menuPanel;
-        create();
+        
+        createWindow();
     }
     
-    private void create() {
+    public void displayWindow() {
+        popupWindow.setVisible(true);
+    }
+    
+    public void hideWindow() {
+        popupWindow.setVisible(false);
+    }
+    
+    public void refreshWindow() {
+        JTextField textField = (JTextField) calorieTargetPanel.getComponent(1);
+        textField.setText("");
+        selection.setSelectedIndex(0);
+    }
+    
+    private void createWindow() {
         popupWindow = new JFrame();
-        popupWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //popupWindow.setMinimumSize(new Dimension(685, 285));
+        popupWindow.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        createPanel();
+        popupWindow.pack();
         popupWindow.setLocationRelativeTo(menuPanel);
-        
+    }
+    
+    
+    private void createPanel() {
         JPanel settingPanel = new JPanel();
         settingPanel.setLayout(new BoxLayout(settingPanel, BoxLayout.Y_AXIS));
         JLabel prompt = new JLabel("Select preferred formula for caloric expenditure calculation");
@@ -53,24 +72,6 @@ public class CalorieWindow {
         
         calorieTargetPanel = InputFieldFactory.addField(settingPanel, "Enter a daily calorie target (Optional): ", "", "^[1-9]\\d*(\\.\\d+)?$", 15);
         
-        JButton proceedButton = new JButton("Proceed");
-        proceedButton.addActionListener(l -> {
-            if (data.getWeight() == 0 && switchToResults != null) {
-                switchToResults.run();
-            } else if (isSelectionValid()) {
-                JTextField calorieTargetField = (JTextField) calorieTargetPanel.getComponent(1);
-                String calorieTargetText = calorieTargetField.getText();
-                if (!calorieTargetText.equals("")) {
-                    data.setCalorieTarget(Double.parseDouble(calorieTargetText));
-                }
-                FormulaPicker.chooseFormula(data);
-                switchToResults.run();
-                data.populateActivityList();
-            }
-            popupWindow.dispose();
-        });
-        proceedButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
         settingPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         settingPanel.add(prompt);
         settingPanel.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -78,13 +79,31 @@ public class CalorieWindow {
         settingPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         settingPanel.add(calorieTargetPanel);
         settingPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        settingPanel.add(proceedButton);
+        settingPanel.add(createButton());
         
         popupWindow.add(settingPanel);
         popupWindow.pack();
     }
     
-    public boolean isSelectionValid() {
+    private JButton createButton() {
+        JButton proceedButton = new JButton("Proceed");
+        proceedButton.addActionListener(l -> {
+            if (isSelectionValid()) {
+                JTextField calorieTargetField = (JTextField) calorieTargetPanel.getComponent(1);
+                String calorieTargetText = calorieTargetField.getText();
+                if (!calorieTargetText.equals("")) {
+                    data.setCalorieTarget(Double.parseDouble(calorieTargetText));
+                }
+                FormulaPicker.chooseFormula(data);
+                switchToResults.run();
+                hideWindow();
+            }
+        });
+        proceedButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return proceedButton;
+    }
+    
+    private boolean isSelectionValid() {
         if ((data.getAge() == 0 || data.getSex() == "-") && selection.getSelectedItem().equals("Advanced")) {
             JOptionPane.showMessageDialog(null, "Advanced caloric expenditure calculation cannot be done without an age AND sex value");
             return false;
@@ -97,9 +116,5 @@ public class CalorieWindow {
         }
         
         return true;
-    }
-    
-    public void setVisibility(boolean value) {
-        popupWindow.setVisible(value);
     }
 }
