@@ -13,18 +13,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import com.hua.app.data.DataHolder;
+import com.hua.app.data.XmlParser;
 
 public class FilePicker {
     private JPanel parentPanel;
     private DataHolder data;
     private JPanel baseFilePickerPanel;
     private JScrollPane scrollableFilePicker;
+    private XmlParser fileParser;
     
     public FilePicker(DataHolder data, JPanel parentPanel) {
         this.parentPanel = parentPanel;
         this.data = data;
+        try {
+            fileParser = new XmlParser();
+        } catch (ParserConfigurationException e) {
+            JOptionPane.showMessageDialog(parentPanel, "Parser could not be initialized. Exiting...", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
     }
     
     public JScrollPane createFilePicker() {
@@ -72,20 +83,28 @@ public class FilePicker {
                 int dotIndex = filename.lastIndexOf('.');
                 String extension = (dotIndex > 0) ? filename.substring(dotIndex + 1) : "";
                 if (extension.equals("tcx")) {
-                    if (!data.getFileList().contains(selection)) {
-                        /* Check if button has been clicked before */
-                        if (previousSelection == null) {
-                             addNewFileButton();
+                    try {
+                        fileParser.parseFile(selection, data.getActivityList());
+                        
+                        if (!data.getFileHistory().contains(selection)) {
+                            /* Check if button has been clicked before */
+                            if (previousSelection == null) {
+                                 addNewFileButton();
+                            } else {
+                                /* Remove old file after editing selection */
+                                data.getFileHistory().remove(previousSelection);
+                            }
+                            data.getFileHistory().add(selection);
+                            /* Save new selection into button */
+                            source.putClientProperty("SelectedFile", selection);
+                            button.setText(filename);
                         } else {
-                            /* Remove old file after editing selection */
-                            data.getFileList().remove(previousSelection);
+                            JOptionPane.showMessageDialog(null, "You have already selected this file");
                         }
-                        data.getFileList().add(selection);
-                        /* Save new selection into button */
-                        source.putClientProperty("SelectedFile", selection);
-                        button.setText(filename);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "You have already selected this file");
+                    } catch (IllegalArgumentException e) {
+                        JOptionPane.showMessageDialog(parentPanel, "Invalid file structure");
+                    } catch (SAXException e) {
+                        JOptionPane.showMessageDialog(parentPanel, "File is empty");
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "This file format is unsupported");
