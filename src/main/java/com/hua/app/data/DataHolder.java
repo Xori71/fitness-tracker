@@ -20,7 +20,7 @@ public class DataHolder {
     private int age;
     private double weight;
     private String sex;
-    private Set<File> fileList;
+    private Set<File> fileHistory;
     private ArrayList<Activity> activityList;
     private Formula formula;
     private double calorieTarget;
@@ -30,7 +30,7 @@ public class DataHolder {
         age = 0;
         weight = 0;
         sex = null;
-        fileList = new HashSet<>();
+        fileHistory = new HashSet<>();
         activityList = new ArrayList<>();
         dailyBurnedCalories = new HashMap<>();
         formula = null;
@@ -69,17 +69,12 @@ public class DataHolder {
         this.sex = sex;
     }
 
-    public Set<File> getFileList() {
-        return fileList;
+    public Set<File> getFileHistory() {
+        return fileHistory;
     }
 
-    public void setFileList(Set<File> fileList) {
-        this.fileList = fileList;
-    }
-    
-    public void populateActivityList() {
-        XmlParser parser = new XmlParser();
-        parser.TcxParse(fileList, activityList);
+    public void setFileHistory(Set<File> fileList) {
+        this.fileHistory = fileList;
     }
     
     public void setCalorieTarget(double calorieTarget) {
@@ -107,6 +102,6 @@ public class DataHolder {
         weight = 0.0;
         sex = null;
         activityList.clear();
-        fileList.clear();
+        fileHistory.clear();
     }
 }

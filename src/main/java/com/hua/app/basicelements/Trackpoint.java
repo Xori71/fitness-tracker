@@ -24,7 +24,10 @@ public class Trackpoint {
     }
 	
 	public int getTimestampInSeconds() {
-        return timestamp.toLocalTime().toSecondOfDay();
+	    if (timestamp != null) {
+			return timestamp.toLocalTime().toSecondOfDay();		
+		}
+		return 0;
 	}
 	
 	public double getDistance() {

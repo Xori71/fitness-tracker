@@ -103,7 +103,7 @@ public class MenuPanel {
             JOptionPane.showMessageDialog(menuPanel, "Invalid weight value");
             return false;
         }
-        if (data.getFileList().isEmpty()) {
+        if (data.getActivityList().isEmpty()) {
             JOptionPane.showMessageDialog(menuPanel, "No files selected");
             return false;
         }

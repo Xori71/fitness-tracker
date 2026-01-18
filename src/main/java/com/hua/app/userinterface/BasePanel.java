@@ -55,7 +55,6 @@ public class BasePanel {
     }
     
     private void switchToResults() {
-        data.populateActivityList();
         resultsPanel.updateDisplay();   
         c.show(basePanel, "RESULTS");
     }

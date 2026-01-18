@@ -7,79 +7,118 @@ import com.hua.app.basicelements.Track;
 import com.hua.app.basicelements.Trackpoint;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Set;
 
 public class XmlParser {
     private static final double DEFAULT_VALUE = 0;
+    private final DocumentBuilder dBuilder;
     
-    public void TcxParse(Set<File> fileList, ArrayList<Activity> activityArray){
-        for (File file : fileList) {
-            try {
-                DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
-                Document document = dBuilder.parse(new FileInputStream(file));
-                
-                /* Get activities */
-                NodeList activityList = document.getElementsByTagName("Activity");
-                for(int i = 0; i < activityList.getLength(); i++){
-                    Element activityElement = (Element) activityList.item(i); 
-                    String sport = activityElement.getAttribute("Sport");
-                    NodeList idList = activityElement.getElementsByTagName("Id");
-                    String id = idList.item(0).getTextContent();
-                    String date = getDateFromId(id);
-                    ParsedActivity activity = new ParsedActivity(sport, date);
-                    
-                    /* Get laps */
-                    NodeList laps = activityElement.getElementsByTagName("Lap");
-                    for (int a = 0; a < laps.getLength(); a++) {
-                        Element lapElement = (Element) laps.item(a);
-                        Lap lap = new Lap();
-                        
-                        /* Get tracks */
-                        NodeList trackList = lapElement.getElementsByTagName("Track");
-                        for (int b = 0; b < trackList.getLength(); b++) {
-                            Element trackElement = (Element) trackList.item(b);
-                            Track track = new Track();
-                            
-                            /* Get trackpoints */
-                            NodeList trackPoints = trackElement.getElementsByTagName("Trackpoint");
-                            for (int j = 0; j < trackPoints.getLength(); j++) {
-                                Element e = (Element) trackPoints.item(j);
-                                
-                                Instant timestamp = Instant.parse(getNodeValue(e.getElementsByTagName("Time")));
+    public XmlParser() throws ParserConfigurationException {
+        DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
+        try {
+            dBuilder = dFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            throw e;
+        }
+    }
     
-                                double distance = getDoubleSafely(e, "DistanceMeters");
-                                double altitude = getDoubleSafely(e, "AltitudeMeters");
-    
-                                NodeList posList = e.getElementsByTagName("Position");
-                                Element posElement = (Element) posList.item(0);
-                                double latitude =  getDoubleSafely(posElement, "LatitudeDegrees");
-                                double longtitude = getDoubleSafely(posElement, "LongitudeDegrees");
-    
-                                NodeList hrbList = e.getElementsByTagName("HeartRateBpm");
-                                Element hrbElement = (Element) hrbList.item(0);
-                                int heartRate = getIntSafely(hrbElement, "Value");
-                                
-                                track.addTrackpoint(new Trackpoint(latitude, longtitude, altitude, distance, heartRate, timestamp));
-                            }
-                            lap.addTrack(track);
-                        }
-                        activity.addLap(lap);
-                    }    
-                    activityArray.addLast(activity);
-                }
-            } catch (Exception e) {
-                System.out.println("Cannot open TCX file/s");
+    public void parseFile(File file, ArrayList<Activity> activityArray) throws SAXException {
+        try {
+            Document document = dBuilder.parse(new FileInputStream(file));
+            
+            /* Get activities */
+            NodeList activityList = document.getElementsByTagName("Activity");
+            if (activityList.getLength() == 0) {
+                throw new IllegalArgumentException();
             }
+            
+            for(int i = 0; i < activityList.getLength(); i++){
+                Element activityElement = (Element) activityList.item(i); 
+                String sport = activityElement.getAttribute("Sport");
+                
+                NodeList idList = activityElement.getElementsByTagName("Id");
+                String date;
+                if (idList.getLength() != 0) {
+                    String id = idList.item(0).getTextContent();
+                    date = getDateFromId(id);
+                } else {
+                    date = "";
+                }
+                
+                ParsedActivity activity = new ParsedActivity(sport, date);
+                
+                /* Get laps */
+                NodeList lapList = activityElement.getElementsByTagName("Lap");
+                if (lapList.getLength() == 0) {
+                    throw new IllegalArgumentException();
+                }
+                
+                for (int a = 0; a < lapList.getLength(); a++) {
+                    Element lapElement = (Element) lapList.item(a);
+                    Lap lap = new Lap();
+                    
+                    /* Get tracks */
+                    NodeList trackList = lapElement.getElementsByTagName("Track");
+                    if (trackList.getLength() == 0) {
+                        throw new IllegalArgumentException();
+                    }
+                    
+                    for (int b = 0; b < trackList.getLength(); b++) {
+                        Element trackElement = (Element) trackList.item(b);
+                        Track track = new Track();
+                        
+                        /* Get trackpoints */
+                        NodeList trackPoints = trackElement.getElementsByTagName("Trackpoint");
+                        if (trackPoints.getLength() == 0) {
+                            throw new IllegalArgumentException();
+                        }
+                        
+                        for (int j = 0; j < trackPoints.getLength(); j++) {
+                            Element e = (Element) trackPoints.item(j);
+                            
+                            NodeList timeList = e.getElementsByTagName("Time");
+                            Instant timestamp;
+                            if (timeList.getLength() != 0) {
+                                timestamp = Instant.parse(getNodeValue(e.getElementsByTagName("Time")));
+                            } else {
+                                timestamp = null;
+                            }
+                            
+                            double distance = getDoubleSafely(e, "DistanceMeters");
+                            double altitude = getDoubleSafely(e, "AltitudeMeters");
+    
+                            NodeList posList = e.getElementsByTagName("Position");
+                            Element posElement = (Element) posList.item(0);
+                            double latitude =  getDoubleSafely(posElement, "LatitudeDegrees");
+                            double longtitude = getDoubleSafely(posElement, "LongitudeDegrees");
+    
+                            NodeList hrbList = e.getElementsByTagName("HeartRateBpm");
+                            Element hrbElement = (Element) hrbList.item(0);
+                            int heartRate = getIntSafely(hrbElement, "Value");
+                            
+                            track.addTrackpoint(new Trackpoint(latitude, longtitude, altitude, distance, heartRate, timestamp));
+                        }
+                        lap.addTrack(track);
+                    }
+                    activity.addLap(lap);
+                }    
+                activityArray.addLast(activity);
+            }
+        } catch (IOException e) {
+            System.err.println("Could not open TCX file");
+        } catch (SAXException e) {
+            throw e;
         }
     }
     
