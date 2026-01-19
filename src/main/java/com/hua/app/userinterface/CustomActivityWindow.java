@@ -116,6 +116,9 @@ public class CustomActivityWindow {
             case 0:
                 customActivity.setType(field.getText());
                 break;
+            case 1:
+                customActivity.setDate(field.getText());
+                break;
             case 2:
                 customActivity.setDuration(field.getText());
                 break;
