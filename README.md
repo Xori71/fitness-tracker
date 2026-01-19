@@ -18,12 +18,21 @@ repository. It checks for this specific TCX structure. Any deviation from that w
 of the file whatsoever.
 # Reference images
 * Main menu:
+* 
 ![Main menu screenshot](images/Screenshot%20From%202026-01-19%2005-50-00.png)
 * Formula selection & daily target:
+
+
 ![Formula/target selection](images/Screenshot%20From%202026-01-19%2005-50-14.png) 
 * Results screen:
+
+
 ![Results screen](images/Screenshot%20From%202026-01-19%2005-50-35.png)
 * Total stats:
+
+
 ![Total stats](images/Screenshot%20From%202026-01-19%2005-50-44.png)
 * Calorie target verdict:
+
+
 ![Target verdict](images/Screenshot%20From%202026-01-19%2005-50-52.png)
