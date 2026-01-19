@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 
+/* Class for th creation of a TCX parser object. Handles basic edge cases and is quite srict */
+
 public class XmlParser {
     private static final double DEFAULT_VALUE = 0;
     private final DocumentBuilder dBuilder;

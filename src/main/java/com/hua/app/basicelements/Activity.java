@@ -2,6 +2,8 @@ package com.hua.app.basicelements;
 
 import com.hua.app.data.calories.CalorieCalcManager;
 
+/* Activity interface for generalization purposes */
+
 public interface Activity {
     String getType();
     String getDate();

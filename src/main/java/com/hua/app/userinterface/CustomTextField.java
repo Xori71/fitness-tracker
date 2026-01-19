@@ -8,7 +8,7 @@ import java.awt.RenderingHints;
 
 import javax.swing.JTextField;
 
-/**\
+/**
  * I extend the JTextField class to add placeholder text to guide the user towards valid inputs for each field.
  * (Yes, some AI was used, for explanations and info gathering. Goddamn if I were gonna search through forums for this.
  * Don't hold it against me :3)

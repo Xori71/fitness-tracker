@@ -20,6 +20,8 @@ import org.xml.sax.SAXException;
 import com.hua.app.data.DataHolder;
 import com.hua.app.data.XmlParser;
 
+/* Class for the creation of the file picker (Functionality and panel for the UI)  */
+
 public class FilePicker {
     private JPanel parentPanel;
     private DataHolder data;

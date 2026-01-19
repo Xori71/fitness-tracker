@@ -14,14 +14,6 @@ import com.hua.app.data.DataHolder;
 public class BasePanel {
     JPanel basePanel;
     CardLayout c;
-    
-    /**
-     * The screen switch should be handled by this class, but the confirmation is given by 
-     * a class that's a few "levels" down (The popup window for caloric expenditure formula
-     * selection, for example). Below is a type of listener that I propagate down until it 
-     * reaches the class that calls for the switching.
-     */
-     
     MenuPanel menuPanel;
     ResultsPanel resultsPanel;
     private DataHolder data;

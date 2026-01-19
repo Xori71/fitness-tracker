@@ -6,9 +6,7 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
-/**
- * Custom input verifier implementation to handle the verification of the various text fields via regular expressions. 
- */
+/* Custom input verifier implementation to handle the verification of the various text fields via regular expressions. */
 
 public class CustomInputVerifier extends InputVerifier {
     String regex;

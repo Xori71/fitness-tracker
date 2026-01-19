@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.hua.app.data.calories.CalorieCalcManager;
 
+/* Class for creating activity objects after parsing a TCX file */
+
 public class ParsedActivity implements Activity {
     private String type;
     private String date;

@@ -2,6 +2,8 @@ package com.hua.app.basicelements;
 
 import com.hua.app.data.calories.CalorieCalcManager;
 
+/* Class for creating objects using custom values from the user */
+
 public class CustomActivity implements Activity {
     private String type;
     private String date;

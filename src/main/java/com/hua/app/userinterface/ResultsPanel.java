@@ -53,6 +53,7 @@ public class ResultsPanel {
         JScrollPane sp = new JScrollPane(resultsTextArea);
         sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         
+        // Holds the three bottom buttons
         JPanel buttonArray = new JPanel(true);
         buttonArray.setLayout(new FlowLayout(FlowLayout.CENTER));
         
@@ -152,6 +153,8 @@ public class ResultsPanel {
     private JScrollPane createCalorieTargetResult() {
         JTextArea textArea = new JTextArea();
         
+        // Print all available dates and whether the calorie target
+        // has been met or not, in a sorted manner.
         data.getDailyBurnedCalories().entrySet().stream()
             .sorted(Map.Entry.comparingByKey())
             .forEach(entry -> {

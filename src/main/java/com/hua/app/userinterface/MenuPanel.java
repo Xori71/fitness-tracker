@@ -12,9 +12,7 @@ import javax.swing.SwingUtilities;
 
 import com.hua.app.data.DataHolder;
 
-/** 
- * The panel that represents the main menu. The file picker and miscellaneous info picker reside in it.
- */
+/* The panel that represents the main menu. The file picker and miscellaneous info picker reside in it. */
 
 public class MenuPanel {
     private JPanel menuPanel;

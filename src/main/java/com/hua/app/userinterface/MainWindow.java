@@ -3,6 +3,8 @@ package com.hua.app.userinterface;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
+/* Class for the creation of the main app window */
+
 public class MainWindow {
     private JFrame mainWindow;
     
