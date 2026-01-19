@@ -12,4 +12,19 @@ The built JAR will be in `target`.
 java -jar <path-to-jar>
 ```
 # Miscellaneous
-Information about each class can be found in the respective class file.
+- Information about each class can be found in the respective class file.
+- The program has been tested using files from [this](https://github.com/
+firefly-cpp/tcx-test-files) repository. It checks for this specific
+TCX structure. Any deviation from that will result in no processing of the
+file whatsoever.
+# Reference images
+* Main menu:
+[Main menu screenshot](images/Screenshot From 2026-01-19 05-50-00.png)
+* Formula selection & daily target:
+[Formula/target selection](images/Screenshot From 2026-01-19 05-50-14.png) 
+* Results screen:
+[Results screen](images/Screenshot From 2026-01-19 05-50-35.png)
+* Total stats:
+[Total stats](images/Screenshot From 2026-01-19 05-50-44.png)
+* Calorie target verdict:
+[Target verdict](images/Screenshot From 2026-01-19 05-50-52.png)
