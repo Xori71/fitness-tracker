@@ -19,12 +19,12 @@ TCX structure. Any deviation from that will result in no processing of the
 file whatsoever.
 # Reference images
 * Main menu:
-[Main menu screenshot](images/Screenshot From 2026-01-19 05-50-00.png)
+[Main menu screenshot]("images/Screenshot From 2026-01-19 05-50-00.png")
 * Formula selection & daily target:
-[Formula/target selection](images/Screenshot From 2026-01-19 05-50-14.png) 
+[Formula/target selection]("images/Screenshot From 2026-01-19 05-50-14.png") 
 * Results screen:
-[Results screen](images/Screenshot From 2026-01-19 05-50-35.png)
+[Results screen]("images/Screenshot From 2026-01-19 05-50-35.png")
 * Total stats:
-[Total stats](images/Screenshot From 2026-01-19 05-50-44.png)
+[Total stats]("images/Screenshot From 2026-01-19 05-50-44.png")
 * Calorie target verdict:
-[Target verdict](images/Screenshot From 2026-01-19 05-50-52.png)
+[Target verdict]("images/Screenshot From 2026-01-19 05-50-52.png")
