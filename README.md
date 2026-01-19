@@ -18,7 +18,7 @@ repository. It checks for this specific TCX structure. Any deviation from that w
 of the file whatsoever.
 # Reference images
 * Main menu:
-* 
+
 ![Main menu screenshot](images/Screenshot%20From%202026-01-19%2005-50-00.png)
 * Formula selection & daily target:
 
