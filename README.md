@@ -17,6 +17,7 @@ java -jar <path-to-jar>
 repository. It checks for this specific TCX structure. Any deviation from that will result in no processing
 of the file whatsoever.
 - Everything from [here](https://eclass.hua.gr/modules/work/?course=DIT267&get=6382&file_type=1), except for the bonus stuff (It made the code too cluttered), has been implemented.
+- This is a small uni projects. Do NOT take it too seriously.
 # Reference images
 * Main menu:
 
