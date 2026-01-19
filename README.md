@@ -16,7 +16,7 @@ java -jar <path-to-jar>
 - The program has been tested using files from [this](https://github.com/firefly-cpp/tcx-test-files)
 repository. It checks for this specific TCX structure. Any deviation from that will result in no processing
 of the file whatsoever.
-- Everything, except for the bonus stuff (It made the code too cluttered), has been implemented.
+- Everything from [here](https://eclass.hua.gr/modules/work/?course=DIT267&get=6382&file_type=1), except for the bonus stuff (It made the code too cluttered), has been implemented.
 # Reference images
 * Main menu:
 
