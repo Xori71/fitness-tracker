@@ -1,2 +1,8 @@
-# fitness-tracker
-A fitness tracker implementation that reads data off an XML file and calculates useful statistics.
+# About
+A fitness tracker that reads data off a TCX file/s and calculates/displays relative statistics.
+---
+# Build
+`mvn clean package`
+The built JAR will be in `target`.
+# Run
+`java -jar <path-to-jar>`
