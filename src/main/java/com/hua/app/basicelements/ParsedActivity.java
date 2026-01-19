@@ -22,7 +22,7 @@ public class ParsedActivity implements Activity {
     public ParsedActivity(String type, String date) {
         this.type = type;
         this.date = date;
-        duration = null;
+        duration = "";
         durationInSeconds = 0;
         distance = 0.0;
         averageSpeed = 0.0;

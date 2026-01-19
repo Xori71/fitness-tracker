@@ -59,6 +59,7 @@ public class ResultsPanel {
         
         JButton backToMenuButton = new JButton("Back to Menu");
         backToMenuButton.addActionListener(l -> {
+            refreshResultsPanel();
             switchToMenu.run();
         });
         
@@ -103,13 +104,24 @@ public class ResultsPanel {
             totalCalories += activity.getCalories();
             
             resultsTextArea.append(String.format("* Activity: %s\n",activity.getType()));
-            resultsTextArea.append(String.format("* Date: %s\n",activity.getDate()));
-            resultsTextArea.append(String.format("* Duration: %s\n", activity.getDuration()));
-            resultsTextArea.append(String.format("* Distance: %.2fm\n", activity.getDistance()));
-            resultsTextArea.append(String.format("* Average Speed: %.2f km/h\n", activity.getAverageSpeed()));
-            resultsTextArea.append(String.format("* Average Heart Rate: %.2f\n", activity.getAverageHeartRate()));
-            resultsTextArea.append(String.format("* Max Heart Rate: %d\n", activity.getMaxHeartRate()));
-            
+            if (!activity.getDate().equals("")) {
+                resultsTextArea.append(String.format("* Date: %s\n",activity.getDate()));
+            }
+            if (!activity.getDuration().equals("")) {
+                resultsTextArea.append(String.format("* Duration: %s\n", activity.getDuration()));
+            }
+            if (activity.getDistance() != 0) {
+                resultsTextArea.append(String.format("* Distance: %.2fm\n", activity.getDistance()));
+            }
+            if (activity.getAverageSpeed() != 0) {
+                resultsTextArea.append(String.format("* Average Speed: %.2f km/h\n", activity.getAverageSpeed()));
+            }
+            if (activity.getAverageHeartRate() != 0) {
+                resultsTextArea.append(String.format("* Average Heart Rate: %.2f\n", activity.getAverageHeartRate()));
+            }
+            if (activity.getMaxHeartRate() != 0) {
+                resultsTextArea.append(String.format("* Max Heart Rate: %d\n", activity.getMaxHeartRate()));
+            }
             if (activity.getCalories() != 0) {
                 resultsTextArea.append(String.format("* Calories Expended: %.2f kcal\n", activity.getCalories()));
                 
@@ -159,7 +171,7 @@ public class ResultsPanel {
             .sorted(Map.Entry.comparingByKey())
             .forEach(entry -> {
                 if (entry.getValue() < data.getCalorieTarget()) {
-                    textArea.append(entry.getKey() + ": Not met\n");
+                    textArea.append("At" + entry.getKey() + ": Not met\n");
                 } else {
                     textArea.append("At " + entry.getKey() + ": Met\n");
                 }
@@ -167,5 +179,12 @@ public class ResultsPanel {
         
         JScrollPane scrollableTextArea = new JScrollPane(textArea);
         return scrollableTextArea;
+    }
+    
+    private void refreshResultsPanel() {
+        resultsTextArea.setText("");
+        totalCalories = 0;
+        totalDistance = 0;
+        totalDuration = 0;
     }
 }

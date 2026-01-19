@@ -17,8 +17,9 @@ public class CustomActivity implements Activity {
     private CalorieCalcManager manager;
     
     public CustomActivity() {
-        type = null;
-        duration = null;
+        type = "";
+        date = "";
+        duration = "";
         durationInSeconds = 0;
         distance = 0.0;
         averageSpeed = 0.0;
