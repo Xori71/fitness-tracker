@@ -171,7 +171,7 @@ public class ResultsPanel {
             .sorted(Map.Entry.comparingByKey())
             .forEach(entry -> {
                 if (entry.getValue() < data.getCalorieTarget()) {
-                    textArea.append("At" + entry.getKey() + ": Not met\n");
+                    textArea.append("At " + entry.getKey() + ": Not met\n");
                 } else {
                     textArea.append("At " + entry.getKey() + ": Met\n");
                 }
